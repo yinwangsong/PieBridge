@@ -1,0 +1,15 @@
+{
+    "pthFolder": "./proxynetworks/models/jit/resnet/",
+    "model_nums": 10,
+    "datasetPth": "./datasets/Caltech256_MNN",
+    "class_nums": 257,
+    "device": "cuda:0",
+    "epochs": 12,
+    "bs": 4,
+    "adapter_nums": 0,
+    "policy_model_pth": "./proxynetworks/pth/policy_model/resnet/policy_resnet.pth",
+    "model_name": "resnet",
+    "training_mode": "head",
+    "baseline_mode": "finetune-all",
+    "EMAalpha": -1
+}
