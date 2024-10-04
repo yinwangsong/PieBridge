@@ -72,7 +72,7 @@ CUDA: 10.2.89
 For the direct dependencies of PieBridge, we recommend you directly using the docker image, or checking the software version details in the docker image and manually installing them.
 
 ```bash
-docker pull
+docker pull yinwangsong2000/piebridge_ae
 ```
 
 ### Downloading datasets and weights
