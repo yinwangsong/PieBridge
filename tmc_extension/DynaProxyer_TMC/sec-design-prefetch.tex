@@ -1,0 +1,33 @@
+% Online-only extension; implementation and protocol in ../orin_scheduling/.
+\begingroup
+\color{blue}
+\subsubsection{Feature Caching}
+\label{subsec:feature-prefetch}
+
+An idle gap between foreground requests may be too short for a complete training batch, but long enough for its frozen forward computation.
+We cache the output just before the first trainable layer to schedule these two parts separately.
+The frozen forward computation can finish in one gap, and training from the first trainable layer can resume in a later gap using the stored features.
+We let each admitted operation finish without interrupting it.
+
+The cache is a temporary buffer within one epoch.
+It starts empty, and each feature is consumed once and then released.
+The next epoch recomputes features even for the same sample and proxy.
+Thus, caching does not remove forward computations through reuse across epochs; it allows their results to wait until the remaining training work can run.
+
+Caching also allows us to prepare features for later batches.
+For a fixed input and proxy, the frozen output does not depend on the current trainable parameters.
+We can therefore reorder feature computations while keeping the work from the first trainable layer onward in the original batch order.
+The original sampler sets the batch plan at the start of each epoch, and subsequent loss calculations, update decisions, and sampler feedback use the current parameters and loss history.
+
+If the next batch's features are ready, its remaining training work takes priority; if that work cannot fit, we wait.
+Otherwise, we first try to compute its missing features.
+If they cannot fit, we look ahead and choose the longest fitting feature computation for another proxy.
+We use a fixed-capacity buffer and reserve space for the earliest missing batch.
+We admit each operation only when its estimated runtime fits before the next foreground request.
+The cache stores features computed ahead of time, while Reorder chooses which ones to prepare.
+Its scheduling benefit comes from using gaps that would otherwise be left idle.
+Grouping batches that share a proxy can additionally improve forward efficiency, a benefit that does not require foreground inference.
+Offline proxy generation and policy training stay unchanged.
+
+\par
+\endgroup

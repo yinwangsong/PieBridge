@@ -1,0 +1,20 @@
+[
+  {
+    "period_ms": 135.0,
+    "mode": "prefetch_reorder",
+    "baseline": "fifo",
+    "training_time_saved_percent": 27.883791027278193,
+    "total_time_saved_percent": 8.417558330507191,
+    "accuracy_difference_pp": 0.07083407118823004,
+    "deadline_miss_difference_pp": 0.01098378891498838
+  },
+  {
+    "period_ms": 180.0,
+    "mode": "prefetch_reorder",
+    "baseline": "fifo",
+    "training_time_saved_percent": 23.97398062234355,
+    "total_time_saved_percent": 6.044237394921847,
+    "accuracy_difference_pp": -0.15937666017354957,
+    "deadline_miss_difference_pp": -0.12244054187573344
+  }
+]

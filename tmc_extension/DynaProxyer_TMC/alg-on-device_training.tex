@@ -1,0 +1,57 @@
+\begin{algorithm}[t]
+\scriptsize
+\SetAlgoNlRelativeSize{-1}
+% \SetAlgoNlRelativeSize{-3}
+\SetAlgoNoEnd
+\SetKwProg{Fn}{Function}{~}{end}
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}\SetKwInOut{Variable}{Variable}
+\Input{\footnotesize
+    \textcolor{blue!85!black}{$\{\mathcal{F}_{n}\}$}, $n \in \{0, 1, 2, \cdots, N\}$; \textcolor{blue!85!black}{$\Omega$}; On-device dataset \textcolor{blue!85!black}{$D$};
+}
+\Output{\footnotesize
+    Fine-tuned \textcolor{blue!85!black}{$\mathcal{F}_{0}$};
+}
+\BlankLine
+\Fn{\footnotesize \textcolor[RGB]{170,144,6}{data\_aware\_training():}}{
+    % $loss\_func$ \textcolor{red!85!black}{$\leftarrow$} $CrELoss()$; 
+    % \tcc{Initialization}
+    \textcolor{blue!85!black}{$train\_loader$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$D$}, \textcolor[RGB]{170,144,6}{$Policy\_sampler()$};
+    \textcolor{blue!85!black}{$\theta$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{green!50!black}{$-1$}; 
+    \textcolor{blue!85!black}{$m$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{green!50!black}{$0.8$}\;
+    \For{\textcolor{blue!85!black}{$epoch$} \textbf{in} \textcolor{blue!85!black}{$epochs$}}{
+        \For{ \textcolor{blue!85!black}{$data$} \textbf{in} \textcolor{blue!85!black}{$train\_loader$}}{
+            \textcolor{blue!85!black}{$X$}, \textcolor{blue!85!black}{$n$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$data$}; \textcolor{green!60!black}{\tcp{mini-batch and routing strategy}}
+            \textcolor{blue!85!black}{$l$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$X$}, \textcolor{blue!85!black}{$\mathcal{F}_{n}$}; \textcolor{green!60!black}{\tcp{get loss by \textbf{one} sub-network $\mathcal{F}_{n}$}}
+            \textcolor{green!60!black}{\tcc{Opportunistic data skipping}}
+            \For{\textcolor{blue!85!black}{$x$} \textbf{in} \textcolor{blue!85!black}{$X$}}{
+                \lIf{ \textcolor{blue!85!black}{$l[x]$} \textcolor{red!85!black}{>} \textcolor{blue!85!black}{$\theta$}}{
+                    \textcolor{blue!85!black}{$l[x]$}\textcolor[RGB]{170,144,6}{$.bp()$};
+                    \textcolor{blue!85!black}{$sampler$}\textcolor[RGB]{170,144,6}{.\textit{adjust}(}\textcolor{blue!85!black}{$x$}, \textcolor{green!50!black}{$0$}\textcolor[RGB]{170,144,6}{)}
+                }\lElse{
+                    \textcolor{blue!85!black}{$sampler$}\textcolor[RGB]{170,144,6}{.\textit{adjust}(}\textcolor{blue!85!black}{$x$}, \textcolor{green!50!black}{$1$}\textcolor[RGB]{170,144,6}{)}
+                }
+            } 
+            \textcolor{green!60!black}{\tcc{Momentum-based filtering threshold}}
+            \textbf{if} \textcolor{blue!85!black}{$\theta$}==\textcolor{green!50!black}{$-1$} \textbf{then} \textcolor{blue!85!black}{$\theta$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$l$}; \textbf{else} \textcolor{blue!85!black}{$\theta$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$m\theta$} + \textcolor{blue!85!black}{$(1-m)l$}\;
+            \textcolor{green!60!black}{\tcc{Synchronizing trainable blocks}}
+            \textbf{for} \textcolor{blue!85!black}{$i$} \textbf{in} \textcolor{blue!85!black}{\{0, 1, $\cdots$, $N$\}} \textbf{ do } \textcolor{blue!85!black}{$\ensuremath{\mathcal{F}_{i}}$} \textcolor{blue!85!black}{$.trainable$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$\ensuremath{\mathcal{F}_{n}}$} \textcolor{blue!85!black}{$.trainable$};
+        }
+    }
+    \textbf{return} \textcolor{blue!85!black}{$\ensuremath{\mathcal{F}_{0}}$};
+}
+% \Fn{\footnotesize{\textcolor[RGB]{170,144,6}{Policy\_sampler():}} \scriptsize{\textcolor{green!60!black}{\tcp{called once per epoch}}}}{
+%     aaa
+% }
+
+\Fn{\footnotesize{\textcolor[RGB]{170,144,6}{Policy\_sampler():}} \scriptsize{\textcolor{green!60!black}{\tcp*[h]{called once per epoch}}}}{
+    \textcolor{blue!85!black}{$P$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$\Omega$}, \textcolor{blue!85!black}{$D$}; \textcolor{green!60!black}{\tcp{a list, routing strategy $n$ = $P$[index of $x$]}}
+    \Fn{\footnotesize{\textcolor[RGB]{170,144,6}{adjust(\textcolor{blue!85!black}{$x$}, \textcolor{blue!85!black}{$\epsilon$})};} \scriptsize{\textcolor{green!60!black}{\tcp*[h]{adjust $x$'s routing strategy by $\epsilon$}}}}{}
+    % $policy\_list$ \textcolor{red!85!black}{$\leftarrow$} adjust the $policy\_list$ based on the filter \; 
+    \textcolor{blue!85!black}{$Q$} \textcolor{red!85!black}{$\leftarrow$} \textcolor{blue!85!black}{$[0:\textcolor[RGB]{170,144,6}{len(}D\textcolor[RGB]{170,144,6}{)}]$}; \textcolor{green!60!black}{\tcp*[h]{a list storing sampling order of $D$}} \\
+    \textcolor{blue!85!black}{$Q$}\footnotesize{\textcolor[RGB]{170,144,6}{.\textit{sort}()}\textcolor[RGB]{170,144,6}{.\textit{shuffle}()}}; \scriptsize{\textcolor{green!60!black}{\tcp*[h]{sort by policy, shuffle in same policy}}} \\
+    \textbf{return} \textcolor{blue!85!black}{$sampler$}; \textcolor{green!60!black}{\tcp*[h]{for $train\_loader$ to sample mini-batch}}
+}
+
+\caption{Data-aware on-device training.}
+\label{alg:on-device_training}
+\end{algorithm}

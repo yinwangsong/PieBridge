@@ -1,0 +1,17 @@
+\begin{table}[!t]
+\caption{\yws{Significance of key designs.}}
+\label{table:ablation}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{0.42\linewidth}C{0.25\linewidth}C{0.25\linewidth}@{}}
+\toprule
+\textbf{Design} & \textbf{Training Time (h)} & \textbf{Test Acc. (\%)} \\
+\midrule
+\sys & 1.85 & 82.89 \\
+W/O IDC pruning & N/A (shape mismatch) & N/A (shape mismatch) \\
+W/O latent space alignment & 2.06 & 64.24 \\
+W/O policy model based routing & 26.2 & 82.62 \\
+\bottomrule
+\end{tabular}
+\end{table}

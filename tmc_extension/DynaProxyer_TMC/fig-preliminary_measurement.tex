@@ -1,0 +1,14 @@
+\begin{figure}[!t]
+	\centering
+	\subfloat[Training Mem. \label{fig:mem-measurement}]{%
+  \includegraphics[width=0.47\linewidth]{figs/mem_measure.pdf}}%
+	\hfill
+	\subfloat[Wall-Clock Time\label{fig:time_measure}]{%
+  \includegraphics[width=0.45\linewidth]{figs/time_measure.pdf}}
+
+	\caption{The preliminary measurement results of PET.
+        (a) Theoretical memory consumption of fine-tuning all parameters (FT-All) and PET (ViT\_base: Adapters; ResNet50: Linear Probing; MobileNetV3: Last-3; mini-batch size=4). 
+        (b) Wall-clock training time per epoch (ResNet50 + Caltech-256 + MI10, LP: Linear Probing). Red dotted line: the average daily training-available time on smartphones (2.7 hours)~\cite{xu2018deeptype}.
+        }
+
+\end{figure}

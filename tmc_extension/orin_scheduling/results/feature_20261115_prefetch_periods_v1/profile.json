@@ -1,0 +1,134 @@
+{
+  "training": [
+    {
+      "proxy": 0,
+      "p50": 50.3406019997783,
+      "p95": 51.25000510015525,
+      "p99": 51.389230058994144,
+      "max": 51.39128991868347
+    },
+    {
+      "proxy": 1,
+      "p50": 36.72954603098333,
+      "p95": 36.94503100705333,
+      "p99": 37.25527373026125,
+      "max": 37.381781032308936
+    },
+    {
+      "proxy": 2,
+      "p50": 32.362866040784866,
+      "p95": 32.683942589210346,
+      "p99": 32.7437735395506,
+      "max": 32.75962406769395
+    },
+    {
+      "proxy": 3,
+      "p50": 34.1058190097101,
+      "p95": 34.3487745441962,
+      "p99": 34.55588536453433,
+      "max": 34.63027498219162
+    },
+    {
+      "proxy": 4,
+      "p50": 26.711364975199103,
+      "p95": 26.924457011045888,
+      "p99": 26.990419991780072,
+      "max": 27.009834069758654
+    },
+    {
+      "proxy": 5,
+      "p50": 25.906822993420064,
+      "p95": 26.204530824907124,
+      "p99": 26.228637979365885,
+      "max": 26.236284989863634
+    },
+    {
+      "proxy": 6,
+      "p50": 21.70301298610866,
+      "p95": 21.907336078584194,
+      "p99": 21.924705003621057,
+      "max": 21.930328919552267
+    },
+    {
+      "proxy": 7,
+      "p50": 16.766630520578474,
+      "p95": 17.021029157331213,
+      "p99": 17.14000130770728,
+      "max": 17.181261093355715
+    },
+    {
+      "proxy": 8,
+      "p50": 13.256749953143299,
+      "p95": 13.429170055314898,
+      "p99": 13.441312046488747,
+      "max": 13.444912969134748
+    },
+    {
+      "proxy": 9,
+      "p50": 8.086268499027938,
+      "p95": 9.36411545262672,
+      "p99": 9.500930692302063,
+      "max": 9.501394932158291
+    }
+  ],
+  "evaluation_ms": {
+    "p50": 49.95539254741743,
+    "p95": 50.63294054707512,
+    "p99": 50.70542870089412,
+    "max": 50.73332495521754
+  },
+  "inference_ms": {
+    "p50": 21.64591453038156,
+    "p95": 22.077938582515344,
+    "p99": 22.08181035006419,
+    "max": 22.08203310146928
+  },
+  "training_images": 3030,
+  "validation_images": 5647,
+  "lr": 0.001,
+  "initial_policy_histogram": {
+    "0": 3030
+  },
+  "initial_policy_sha256": "bfebf909bf95a534e5d748a22991c57ea1a432f3c43e4c5d53fe60ac5502308a",
+  "torch": "2.0.0+nv23.05",
+  "torchvision": "0.15.1",
+  "cuda": "11.4",
+  "device": "Orin",
+  "cudnn": 8600,
+  "nvpmodel": "NV Power Mode: MODE_30W\n2\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap\n",
+  "git_commit": "9f22310d557603768f0d979de80d6a7148a6a0b8",
+  "source_sha256": "ccfb302b8cddcf64b109c15cd3803b2728eb47c121baa4cb75f415c735085f9a",
+  "helper_sha256": "1b7968a8d94bb28186f888ce3b85ae8a3cae1e1473e49524f4aa222762659232",
+  "preparation_seconds": 192.23326585697941,
+  "args": {
+    "output": "/home/astranode/tmc_extension/results/feature_20261115_prefetch_periods_v1",
+    "epochs": 12,
+    "periods_ms": [
+      135.0,
+      180.0
+    ],
+    "modes": [
+      "fifo",
+      "prefetch_reorder"
+    ],
+    "batch_size": 4,
+    "eval_batch_size": 4,
+    "seed": 20261111,
+    "deadline_ms": 33.19751079194248,
+    "guard_ms": 2,
+    "predict_margin": 1.15,
+    "lookahead": 128,
+    "max_bypass": 8,
+    "buffer_batches": 32,
+    "group_sizes": [
+      1,
+      2,
+      4
+    ],
+    "profile_warmup": 10,
+    "profile_steps": 30,
+    "max_trial_seconds": 7200,
+    "check_only": false
+  },
+  "timing_scope": "12 online epochs, 12 fresh full F0 validation passes, scheduling waits and final foreground drain; resident data/models; setup excluded"
+}

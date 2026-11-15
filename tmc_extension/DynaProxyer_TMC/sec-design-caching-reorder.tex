@@ -1,0 +1,27 @@
+% Combined online loop, checked against prefetch_policy.py and
+% prefetch_training_benchmark.py. The algorithm describes one training epoch.
+\begingroup
+\color{blue}
+\subsubsection{Combining Feature Caching and Reordering}
+\label{subsec:caching-reorder-algorithm}
+
+Algorithm~\ref{alg:caching-reorder} combines the two designs for one epoch.
+The original sampler provides the batch order and the proxy for each batch.
+The cache $C$ holds features before the first trainable layer, indexed by batch ID; $i$ is the next batch whose remaining training work must run.
+The cache starts empty in each epoch, while the trainable parameters and loss history carry over.
+
+\textsc{TrainRest} runs from the first trainable layer using the current parameters.
+It keeps the original loss-based update decision, EMA update, and sampler feedback in Algorithm~\ref{alg:on-device_training}.
+Its runtime estimate reserves time for a full backward update.
+\textsc{FrozenForward} computes only the frozen layers before this point and returns features for each original batch.
+Both runtime estimates are updated after the corresponding operation finishes.
+
+\input{alg-caching-reorder}
+
+When batch $i$ is cached, its remaining training work takes priority.
+Otherwise, we prepare features for it if they fit, or use the gap for a later group.
+Each group uses one proxy and takes the earliest uncached batches for that proxy within the lookahead range.
+We keep the largest allowed group that fits both the time budget and the cache; a group that excludes $i$ must leave one cache slot free for it.
+Only feature computation can move ahead: $i$ always advances in the original order, and each cached batch is released after use.
+\par
+\endgroup

@@ -1,0 +1,20 @@
+\begin{table}[!t]
+\caption{Comparisons of practical on-device PET methods. Model: ViT\_base.}
+\label{table-PET Methods}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}L{0.18\linewidth}L{0.24\linewidth}L{0.29\linewidth}L{0.23\linewidth}@{}}
+\toprule
+\textbf{PET Method} & \textbf{Trainable layers} & \textbf{Formula} & \textbf{Trainable Parameters} \\
+\midrule
+Linear Probing & The last linear layer & $y=x\cdot W+b$ & 0.69\% \\
+\midrule
+Last-K & The last $K$ layers & N/A & $\geq$8.3\% \\
+\midrule
+TS Layers & Task-specific layers (Norm. layers here) & N/A & 0.87\%--2.80\% \\
+\midrule
+Adapters & The inserted adapters & \mbox{$y=x+\sigma(x\cdot$}\newline\mbox{$W_{down})\cdot W_{up}$} & 0.71\% \\
+\bottomrule
+\end{tabular}
+\end{table}

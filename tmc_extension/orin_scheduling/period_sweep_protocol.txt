@@ -1,0 +1,47 @@
+Foreground period sweep for Table 8 (2026-11-15, Asia/Shanghai)
+
+Question: Does Reorder + prefetch shorten full training relative to uncached
+FIFO across different foreground inference periods?
+
+Periods fixed before collecting new results: 105, 135, and 180 ms.
+The 105 ms row reuses the complete and verified paired measurements underlying
+Table 7: feature_20261113_prefetch_full_v2. For 135 and 180 ms, run fresh FIFO
+and prefetch_reorder measurements under the same benchmark and settings.
+New output: feature_20261115_prefetch_periods_v1.
+
+Each condition runs once, for all 12 epochs, from the released initial model,
+seed 20261111, and original routing state. Every epoch is followed by a fresh
+full validation pass. Foreground requests continue during training/validation.
+The reported training time is the sum of the 12 training intervals, including
+admission waits and feature production/consumption, but excluding validation.
+Evaluation, total time, accuracy, inference latency/misses, update counts,
+source snapshots, and all per-batch traces remain in the raw records.
+
+Use unchanged prefetch_training_benchmark.py, prefetch_policy.py,
+full_training_benchmark.py, and periodic_benchmark.py from Table 7. The launcher
+verifies their hashes before starting. The two modes share a newly measured
+profile within this run. The benchmark resets weights, optimizer, and routing
+state per condition, and shuffles condition order with the fixed seed.
+The built-in two-epoch correctness checks precede the full measurements.
+
+Existing Jetson AGX Orin 64 GB / 30 W mode; batch size 4; eval batch size 4;
+2 ms guard; 128-batch lookahead; 32-batch feature cache; allowed forward group
+sizes 1/2/4 original batches. Cache entries are consumed once within an epoch.
+No cross-epoch reuse, no validation caching, and no offline training changes.
+
+Table 8 columns: period (ms), FIFO training (s), Reorder + prefetch training
+(s), and training time saved (%). Savings = 100 * (1 - combined / FIFO).
+Keep every predeclared period, including a zero or negative gain if observed.
+Describe consistency across periods only if supported by the measurements;
+one run per condition does not establish repeat-to-repeat variance or
+statistical significance. Do not substitute smoke results for full training.
+
+Reproduction:
+python3 orin_scheduling/feature_remote.py launch \
+  --name feature_20261115_prefetch_periods_v1 \
+  --script prefetch_training_benchmark.py \
+  --extra --epochs 12 --periods-ms 135 180 --modes fifo prefetch_reorder
+
+Verification after collecting the completed archive:
+python3 orin_scheduling/report_prefetch.py \
+  orin_scheduling/results/feature_20261115_prefetch_periods_v1

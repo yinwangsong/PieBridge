@@ -1,0 +1,48 @@
+完整 12 轮训练与逐轮全量 evaluation 补测
+
+用户确认范围：105、135、180 ms 周期，FIFO、Reorder 各跑一次，共六次。
+设备、模型、数据集、学习率、训练 batch=4、FP32 与已有实验保持一致。
+不修改离线代理网络或策略模型训练。
+
+从发布的同一分类头初始状态开始，每个条件完整执行 12 个在线 epoch。
+训练集为 3030 张；沿用原始 drop-last，每轮实际处理 757 批、3028 张，
+共 9084 批。每轮验证覆盖 5647 张，12 轮共重新计算 67764 张图片的特征。
+使用原有 loss/EMA 跳过更新与代理偏移机制，根据当前执行得到的 loss 实时
+决定是否反向更新；不复用第 7 轮片段的固定更新标记。因此不同调度方法
+可能产生不同的更新次数、后续路由与准确率，报告时必须列明。
+
+每轮训练结束后执行一次完整 evaluation，使用最大代理 F0 和当前分类头，
+batch=4，覆盖全部 5647 张验证图片，包含最后 3 张。每次重新计算特征，
+不缓存验证集特征。前台推理在训练与 evaluation 期间都按固定墙钟周期到达。
+两种方法在 evaluation 时使用相同的 FIFO 准入规则，evaluation 不与下一轮
+训练交错；训练时只有 Reorder 能在队首放不下时重排不同代理的批次。
+
+单次总耗时：第 1 轮开始至第 12 轮全量 evaluation 结束，加上最后已到达
+前台请求的清空时间。分别报告训练、evaluation、末尾清空及总时间。
+各阶段均包含等待前台推理的时间；轮间记录开销归入下一轮训练。
+模型和变换后的图片预先驻留 GPU，模型/图片加载、首次策略计算和初始
+代价剖析不计入这 12 轮循环计时。保留这些准备步骤的单独耗时记录。
+
+固定推理响应目标沿用 33.19751079194248 ms；不根据测量结果重新选择阈值。
+初始代价为独立 p95×1.15，近期 32 次 p95×1.10 更新，保留初始下界；
+下一次请求前留 2 ms。推理每次使用一个固定验证样本和冻结分类头。
+每次运行从相同随机种子、初始分类头和初始策略标签开始，六个条件的
+执行顺序使用固定种子随机排列。单次结果不提供标准差和置信区间。
+
+计时脚本：../PieBridge/src/full_training_benchmark.py
+验证与汇总：report_full12.py
+运行目录：Orin /home/astranode/tmc_extension/results/full12_20261111_v2
+准备过程中先执行两次真实 GPU 短跑，验证部分末批、计时分解和请求释放。
+此文件描述协议，不代表测量已经完成；以完整原始记录和 verification.txt 为准。
+
+复现命令（结果目录必须使用新名称，避免覆盖既有测量）：
+cd /home/astranode/tmc_extension/PieBridge
+../run_python.sh src/full_training_benchmark.py --output ../results/full12_new \
+  --epochs 12 --periods-ms 105 135 180 --modes fifo reorder --self-check
+
+本地取回及复核：
+python3 orin_scheduling/fetch_full12.py
+python3 orin_scheduling/report_full12.py orin_scheduling/results/full12_20261111
+python3 orin_scheduling/render_full12_section.py
+取回脚本仅在远端六组均完成后打包；检查归档与运行源码的 SHA-256。
+论文新增小节由通过验证的 metrics.json 与 comparisons.json 生成。

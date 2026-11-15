@@ -1,0 +1,47 @@
+% Shared setup for the four-condition, full-12-epoch Orin experiment.
+% Evidence: ../orin_scheduling/results/feature_20261113_prefetch_full_v2/
+\begingroup
+\color{blue}
+\subsection{Coexisting with Periodic Inference on Jetson Orin}
+\label{subsec:orin-periodic}
+
+We test whether reordering training work and computing features ahead of time can speed up background training while foreground inference runs regularly.
+We compare four methods: FIFO, Reorder, FIFO with prefetching, and Reorder with prefetching.
+FIFO without feature caching is the baseline.
+Both optimizations run on the device and leave offline proxy generation and policy training unchanged.
+
+\noindent \textbf{Setup.}
+We use a Jetson AGX Orin developer kit with 64\,GB memory in its existing 30\,W power mode.
+It runs PyTorch 2.0.0+nv23.05 and CUDA 11.4.
+We use the released ResNet50 proxy networks, policy model, and classifier on Caltech-101.
+The proxy networks stay frozen, and we train the classifier for 12 epochs with batch size four and an SGD learning rate of 0.001.
+All methods use the same models and store tensors in FP32.
+We turn off the Python TF32 settings, although the released TorchScript convolution operators still allow TF32 internally.
+
+For the four-method comparison, a foreground inference request arrives every 105\,ms during training.
+We measure its response time from its scheduled arrival until the GPU finishes it, including any waiting time.
+We set a response-time target of 33.20\,ms before the experiments and process every request.
+
+\noindent \textbf{Scheduling.}
+We use the FIFO and Reorder rules in Section~\ref{subsec:reorder}.
+All four methods give foreground requests priority and leave a 2\,ms safety margin before the next request.
+Reorder looks ahead by up to 128 batches.
+Without caching, it stops letting later batches pass the oldest batch after eight such passes.
+With caching, only feature computation is reordered; the remaining training work keeps the original batch order.
+
+We estimate how long each operation will take from measured runtimes.
+The initial estimate is 1.15 times the 95th-percentile runtime measured without foreground inference.
+We then update it to 1.10 times the 95th percentile of the latest 32 measurements, but never below the initial estimate.
+For any operation that may update the classifier, we reserve enough time for a full backward update before deciding whether the loss calls for one.
+
+\noindent \textbf{Timing.}
+Each reported result comes from one run.
+We use a fixed seed to shuffle the run order within each experiment.
+Each run starts from the same classifier and routing state and uses the same random seed.
+Training time covers all 12 training epochs, including waiting time and scheduling overhead, but excludes evaluation.
+Total time also includes the 12 full evaluations and the time needed to finish any remaining foreground requests.
+We load the models and prepared images into GPU memory before timing starts.
+Initial policy inference, runtime measurements for the starting estimates, and warmup also take place before timing starts.
+We check the logs to confirm that all training batches, evaluations, and foreground requests finish, that batches follow the required order, and that the recorded times are consistent.
+\par
+\endgroup

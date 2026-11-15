@@ -1,0 +1,34 @@
+% Generated from verified 12-epoch measurements; do not insert smoke timings.
+% Provenance: ../orin_scheduling/period_sweep_protocol.txt
+\begingroup
+\color{blue}
+\noindent\textbf{Varying the foreground inference period.}
+We compare FIFO without caching and Reorder with prefetching at request periods of 105, 135, and 180\,ms.
+Table~\ref{tab:orin-period-sweep} reports the time for all 12 training epochs, excluding evaluation, using the same settings as above.
+The 105\,ms results are reused from Table~\ref{tab:orin-prefetch}; we run both methods once at each of the other two periods.
+Reorder with prefetching reduces training time at all three periods, by 23.97--29.85\% in these runs.
+The benefit therefore persists across the tested request periods.
+
+
+\begin{table}[!t]
+\color{blue}
+\caption{Training time under different foreground inference periods.}
+\label{tab:orin-period-sweep}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\arrayrulecolor{blue}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+\makecell{Period\\(ms)} & \makecell{FIFO\\(s)} & \makecell{Reorder +\\prefetch (s)} & \makecell{Training time\\saved (\%)} \\
+\midrule
+105 & 737.05 & 517.06 & 29.85 \\
+135 & 620.92 & 447.79 & 27.88 \\
+180 & 514.40 & 391.08 & 23.97 \\
+\bottomrule
+\end{tabular}
+\arrayrulecolor{black}
+\end{table}
+\par
+\endgroup

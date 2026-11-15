@@ -1,0 +1,74 @@
+{
+  "orin_scheduling/results/feature_20261113_prefetch_full_v2/main_p105_fifo.json": {
+    "local_raw_sha256": "c722bc8643ce478adfc1f6155915ee6836e27aefee1a66091b8a296fde637a43",
+    "published_summary_sha256": "bd8c50b7a7ad522c00964bdb5d924aef4d0079d115a66fe47ac9641e760a4f86",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261113_prefetch_full_v2/main_p105_prefetch_fifo.json": {
+    "local_raw_sha256": "0017716144fd76846398857d03f9a87c151d5a3b7b47b3029b5f8f9378960680",
+    "published_summary_sha256": "c109842b0c606ce06b1d622179d0f890a18f5efc3ba5325e6ab6d1a1d78cd066",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261113_prefetch_full_v2/main_p105_prefetch_reorder.json": {
+    "local_raw_sha256": "e0b6c69acacd9c0bbd33115623bea2a5cf7a5ddb51c950e6517278397383aa95",
+    "published_summary_sha256": "e58e906c0ce841d68e6d79e98b9c7d89fde43b4ede114462318296cd93e32067",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261113_prefetch_full_v2/main_p105_reorder.json": {
+    "local_raw_sha256": "38e9dafdb6742ce54112fb15c64778b8fc276e0d09dd2a2476688408141fff1a",
+    "published_summary_sha256": "1b2789a69001bf24e1ade99725ccb60771ef31dc7580565d092f20d572c4237a",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261115_prefetch_periods_v1/main_p135_fifo.json": {
+    "local_raw_sha256": "331cb41c75ddda0eaf9db2fdd2106a00462aa7ea6942d4f23b25cbc487076b6c",
+    "published_summary_sha256": "5c15c253561cebcf9aa49e80e3f92a8a41b8ffecad25dc7288e8387cac881e78",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261115_prefetch_periods_v1/main_p135_prefetch_reorder.json": {
+    "local_raw_sha256": "14192e15d2e44c2d3cfb3d7c7eadfe3c4c2f3a6f4f325932ed73a2ce3c296dd8",
+    "published_summary_sha256": "777c06e2227bdcafa44d7d56e353ec3fe36a8318d040fd40bace1bb1376f0580",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261115_prefetch_periods_v1/main_p180_fifo.json": {
+    "local_raw_sha256": "e79580aca07210d13373a2d573d56454ee849d758bacf1adbbd6b83a0a18635e",
+    "published_summary_sha256": "a44a879659ead44e93d68e0d52d3a15abe25297c2174b35d2404d11afec165c9",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  },
+  "orin_scheduling/results/feature_20261115_prefetch_periods_v1/main_p180_prefetch_reorder.json": {
+    "local_raw_sha256": "075690138ffce47c6835a5b49e6bd27450d4f3a435ddd795c1efad1ed69dd965",
+    "published_summary_sha256": "eb334aa17f37e3b2bdce98d582971071bbdb13c3413f4cb83d9044d51b5bdc3a",
+    "removed_fields": [
+      "epoch_traces",
+      "inference_trace"
+    ],
+    "retained": "All final run metrics and 12 epoch summaries; values unchanged."
+  }
+}

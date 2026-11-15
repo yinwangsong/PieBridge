@@ -1,0 +1,22 @@
+{
+  "epochs": 12,
+  "conditions": [
+    [
+      135.0,
+      "fifo"
+    ],
+    [
+      180.0,
+      "fifo"
+    ],
+    [
+      135.0,
+      "prefetch_reorder"
+    ],
+    [
+      180.0,
+      "prefetch_reorder"
+    ]
+  ],
+  "repeats": 1
+}

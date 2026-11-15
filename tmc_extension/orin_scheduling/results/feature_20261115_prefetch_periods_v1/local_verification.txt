@@ -1,0 +1,1 @@
+PASS: source hashes, full training/evaluation coverage, initial state, periodic request accounting, within-epoch feature production/consumption, no cross-epoch cache, FIFO classifier updates, and elapsed accounting.

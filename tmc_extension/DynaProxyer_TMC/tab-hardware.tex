@@ -1,0 +1,19 @@
+
+
+\begin{table}[!t]
+\caption{Details of devices used in the experiments.}
+\label{table-hardware}
+\centering
+\scriptsize
+\begin{tabular}{@{}l|l|l@{}}
+\toprule
+\textbf{Name}                                             & \textbf{Processor}                                                                                                                                   & \textbf{Software env.}                                                                            \\ \midrule
+\begin{tabular}[c]{@{}l@{}}Jetson \\ TX2~\cite{tx2}\end{tabular}     & \begin{tabular}[c]{@{}l@{}}Dual-Core NVIDIA Denver 2 64-Bit CPU,\\ 256-core NVIDIA Pascal™ GPU.\end{tabular}                                         & \begin{tabular}[c]{@{}l@{}}Ubuntu 18.04 LTS, \\ PyTorch 1.7.1.\end{tabular}                      \\ \midrule
+RPI 4B~\cite{rpi}                                                    & \begin{tabular}[c]{@{}l@{}}Broadcom BCM2711B0 quad-core \\ A72 64-bit @ 1.5GHz CPU.\end{tabular}                                                     & \begin{tabular}[c]{@{}l@{}}Raspbian 11,\\ PyTorch 1.7.1.\end{tabular}                              \\ \midrule
+MI 10~\cite{mi10}                                                     & \begin{tabular}[c]{@{}l@{}}2.84GHz Cortex-X1, \\ 3× 2.4GHz Cortex A78, \\ 4× 1.8GHz Cortex A55 CPU.\end{tabular}                                     & \begin{tabular}[c]{@{}l@{}}Android 10, \\ MNN 2.0.0, \\ ONNX 1.13.1.\end{tabular} \\ \cmidrule(r){1-2}
+\begin{tabular}[c]{@{}l@{}}Huawei \\ Mate 30~\cite{HuaWei}\end{tabular} & \begin{tabular}[c]{@{}l@{}}2x 2.86 GHz ARM Cortex-A76,\\ 2x 2.09 GHz ARM Cortex-A76,\\ 4x 1.86 GHz ARM Cortex-A55 CPU,\\ Kirin 990 NPU.\end{tabular} & \begin{tabular}[c]{@{}l@{}}Android 10, \\ MNN 2.0.0, \\ ONNX 1.13.1.\end{tabular} \\ \bottomrule
+\end{tabular}
+
+
+
+\end{table}

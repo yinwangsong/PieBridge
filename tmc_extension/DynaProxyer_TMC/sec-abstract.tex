@@ -1,0 +1,17 @@
+\begin{abstract}
+\begingroup
+\color{blue}
+On-device training enables model personalization without uploading user data, but remains costly on devices with limited computing resources.
+Parameter-efficient training (PET) updates only a small fraction of model parameters, yet frozen layers still dominate its computation.
+Sharing an accelerator with foreground inference further limits the time available for training.
+We present \sys, a framework that accelerates on-device PET through data-aware approximation and foreground-aware scheduling.
+\sys builds cheaper proxy networks for frozen layers using structured pruning and feature alignment on public data.
+At runtime, it selects proxies according to sample difficulty and importance, combining an offline-trained policy with online loss feedback.
+To make better use of gaps between inference requests, \sys caches features before the first trainable layer and reorders their computation to fit the available time.
+Within each epoch, cached features are consumed in the original batch order and released after use.
+Experiments across mobile and embedded devices show up to 2.5$\times$ training speedup over state-of-the-art PET methods and 6.6$\times$ over full-model training, with competitive accuracy.
+On Jetson AGX Orin, feature caching and reordering further reduce ResNet50 training time on Caltech-101 by 23.97--29.85\% compared with FIFO without caching.
+These reductions cover 12 training epochs, excluding evaluation, with foreground inference periods of 105, 135, and 180\,ms.
+\par
+\endgroup
+\end{abstract}

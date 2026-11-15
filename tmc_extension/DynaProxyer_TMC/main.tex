@@ -1,0 +1,78 @@
+% IEEE Transactions on Mobile Computing, Computer Society journal format.
+% Based on the current CTAN IEEEtran 1.8b bare_jrnl_compsoc template.
+\documentclass[10pt,journal,compsoc,letterpaper]{IEEEtran}
+
+\pdfminorversion=7
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[nocompress]{cite}
+\usepackage{amsmath,amssymb}
+\interdisplaylinepenalty=2500
+\usepackage{graphicx}
+\usepackage{array,multirow,booktabs,makecell}
+\usepackage[table]{xcolor}
+\usepackage{relsize,xspace,textcomp,comment}
+% Preserve IEEEtran's main captions; subcaption would override them.
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage[ruled,lined,longend,linesnumbered]{algorithm2e}
+\usepackage{listings,enumitem,pifont,wasysym}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\crefname{section}{Section}{Sections}
+\Crefname{section}{Section}{Sections}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcommand{\rpm}{\raisebox{.2ex}{$\scriptstyle\pm$}}
+\newcommand{\sys}{\texttt{PETCube}\xspace}
+\newcommand{\mwx}[1]{{\color{red}#1}}
+\newcommand{\yws}[1]{{\color{black}#1}}
+
+\hypersetup{
+  pdftitle={PETCube: Accelerating On-Device Training with Online Approximation and Foreground-Aware Scheduling},
+  pdfauthor={Wangsong Yin, Daliang Xu, Gang Hang, Ying Zhang, Shiyun Wei, Mengwei Xu, Xuanzhe Liu},
+  pdfsubject={IEEE Transactions on Mobile Computing manuscript},
+  pdfkeywords={On-Device Training, Neural Network, Speedup, Parameter Efficient}
+}
+
+\begin{document}
+
+\title{PETCube: Accelerating On-Device Training with Online Approximation and Foreground-Aware Scheduling}
+\author{Wangsong~Yin, Daliang~Xu, Gang~Hang, Ying~Zhang,
+Shiyun~Wei, Mengwei~Xu, and~Xuanzhe~Liu%
+\IEEEcompsocitemizethanks{%
+\IEEEcompsocthanksitem Wangsong Yin, Daliang Xu, Gang Hang, Ying Zhang, and Xuanzhe Liu are with Peking University, Beijing, China.
+E-mail: yws@stu.pku.edu.cn; \{xudaliang, hg, zhang.ying, liuxuanzhe\}@pku.edu.cn.
+\IEEEcompsocthanksitem Shiyun Wei is with Zhongguancun Laboratory, Beijing, China. E-mail: weishiyun@pku.edu.cn.
+\IEEEcompsocthanksitem Mengwei Xu is with Beijing University of Posts and Telecommunications, Beijing, China. E-mail: mwx@bupt.edu.cn.}%
+\thanks{Corresponding author: Mengwei Xu.}}
+
+% No fabricated volume, issue, DOI, acceptance date, or publication copyright.
+\markboth{IEEE Transactions on Mobile Computing, Manuscript}%
+{Yin \MakeLowercase{\textit{et al.}}: PETCube}
+
+\IEEEtitleabstractindextext{%
+\input{sec-abstract}
+\begin{IEEEkeywords}
+On-device training, neural network, speedup, parameter efficient.
+\end{IEEEkeywords}}
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\IEEEpeerreviewmaketitle
+
+\input{sec-intro}
+\input{sec-background and motivation}
+\input{sec-design}
+\input{sec-design-reorder}
+\input{sec-impl}
+\input{sec-eval}
+\input{sec-relatedwork}
+\input{sec-conclusion&ack}
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+\end{document}

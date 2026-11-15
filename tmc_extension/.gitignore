@@ -1,0 +1,33 @@
+# Build products and local runtime files
+**/build/
+**/preview/
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+*.pyc
+*.log
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+*.zip
+*.tar.gz
+.env
+**/.env
+# Local experiment traces, progress, and diagnostic outputs
+orin_scheduling/artifacts/
+orin_scheduling/results/**/check*
+orin_scheduling/results/**/smoke*
+orin_scheduling/results/**/interim_*
+orin_scheduling/results/**/*_progress.json
+orin_scheduling/results/**/live_status.json
+orin_scheduling/results/**/launch.json
+orin_scheduling/results/**/paper_build_output.txt
+# Final CSV metrics override the upstream repository-wide CSV ignore.
+!orin_scheduling/results/**/*.csv
+
+# Keep only the final PDF at the extension root.
+DynaProxyer_TMC/PieBridge_TMC.pdf

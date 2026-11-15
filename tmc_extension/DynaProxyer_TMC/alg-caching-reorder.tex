@@ -1,0 +1,50 @@
+\begin{algorithm}[t]
+\color{blue}
+\footnotesize
+\SetAlFnt{\footnotesize\color{blue}}
+\SetAlCapFnt{\footnotesize\color{blue}}
+\SetAlCapNameFnt{\footnotesize\color{blue}}
+\SetNlSty{textbf}{}{}
+\SetAlgoNlRelativeSize{-1}
+\SetAlgoNoEnd
+\SetKw{Continue}{continue}
+\SetKwInOut{Input}{Input}
+\Input{Ordered batches $Q=(X_j,y_j,p_j)_{j=1}^{M}$; cache capacity $K$ in batches; lookahead $L$; allowed group sizes $S$; safety margin $\delta$; runtime estimates}
+\BlankLine
+$C\gets\emptyset$; $i\gets 1$\;
+\While{$i\le M$}{
+    Wait until all due foreground requests finish\;
+    $b\gets$ time until next request $-\delta$\;
+    \If{$i\in C$}{
+        \eIf{estimated runtime of \textnormal{\textsc{TrainRest}}$(i)\le b$}{
+            \textsc{TrainRest}$(C[i],y_i,p_i)$\;
+            Update its runtime estimate\;
+            Release $C[i]$; $i\gets i+1$\;
+        }{
+            Wait briefly\;
+        }
+        \Continue\;
+    }
+    $\mathcal{G}\gets\emptyset$\;
+    $W\gets$ uncached batches from $i$ to $\min(M,i+L-1)$\;
+    \ForEach{proxy $p$ represented in $W$}{
+        $J\gets$ batch IDs in $W$ using $p$, in order\;
+        $r\gets K-|C|$\;
+        \lIf{$i\notin J$}{$r\gets r-1$}
+        $G\gets$ the longest prefix of $J$ with size in $S$, size $\le r$, and estimated forward time $\le b$\;
+        \lIf{such a $G$ exists}{$\mathcal{G}\gets\mathcal{G}\cup\{G\}$}
+    }
+    \If{$\mathcal{G}=\emptyset$}{
+        Wait briefly; \Continue\;
+    }
+    \eIf{a group in $\mathcal{G}$ contains $i$}{
+        Select that group as $G$\;
+    }{
+        Select $G\in\mathcal{G}$ with the longest estimated forward time; break ties by earliest batch ID\;
+    }
+    $C[G]\gets\textsc{FrozenForward}(Q[G])$\;
+    Update the forward runtime estimate for $G$\;
+}
+\caption{Feature caching with Reorder for one epoch.}
+\label{alg:caching-reorder}
+\end{algorithm}

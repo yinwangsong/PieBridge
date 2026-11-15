@@ -1,3 +1,5 @@
+> **TMC branch:** The current paper, scheduling code, and final experiment summaries are in [`tmc_extension/`](tmc_extension/README.md). [Read the final PDF](tmc_extension/DynaProxyer_TMC.pdf).
+
 Code for [SenSys'24] PieBridge: Fast and Parameter-Efficient On-Device Training via Proxy Networks.
 
 ## Project structure

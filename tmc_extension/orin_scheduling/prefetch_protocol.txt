@@ -1,0 +1,60 @@
+Epoch-local frozen-feature prefetch and scheduling, 2026-11-13
+
+User-confirmed baseline: FIFO without a feature cache. Cache use is restricted
+to ahead-of-demand computation within the current epoch; consume then release.
+There is NO cross-epoch feature reuse and no additional offline training.
+
+All conditions begin at the same released classifier and routing state and run
+all 12 online epochs with live loss/EMA and proxy-offset feedback. Each epoch
+includes a fresh full 5647-image evaluation. Training batch size 4, SGD/lr,
+FP32, Python TF32 flags disabled (JIT exception detailed below), deterministic
+transforms, model/input residency, and
+preparation exclusions match the previous Orin full-12 experiments.
+
+Four conditions under the same 105 ms periodic foreground, release-aware
+admission, 2 ms guard and fixed 33.19751079194248 ms response target:
+fifo: existing whole-batch FIFO without a feature cache (the reference).
+reorder: existing whole-batch WindowScheduler without a feature cache.
+prefetch_fifo: produce features in FIFO order, merging only consecutive batches
+              with the same proxy; update classifier in original batch order.
+prefetch_reorder: select same-proxy feature groups in a bounded lookahead to
+                 fill available windows; classifier updates stay in original
+                 batch order even when features are produced ahead of demand.
+
+Prefetch uses lookahead 128, capacity 32 logical batches, forward group sizes
+1/2/4 original batches (4/8/16 images). A slot is reserved for the oldest missing
+batch. This includes same-proxy forward batching; any gain must not be labeled
+as solely asynchronous overlap. Feature grouping numerical equivalence is
+checked before the formal run. Logical batch loss/update size remains 4.
+Grouping can change floating-point rounding: report full accuracy and update/
+routing counts; do not claim bitwise trajectory equivalence.
+
+Every training image is forwarded exactly once per epoch under its assigned
+proxy. Every feature is consumed once and absent at the next epoch. Timing
+includes first fill, all later fills, and final draining. Evaluation uses the
+same fresh batch-4 FIFO path in all conditions; no feature cache or grouping.
+
+One complete run per condition, seeded shuffled order, plus short correctness
+checks. Report training/evaluation/total wall time, inference p99/miss rate,
+accuracy, update counts, buffer memory, feature groups and coverage. All released
+requests drain; none is dropped. No confidence intervals from single runs.
+Raw traces and source snapshots are retained. The first comparison uses the
+existing 105 ms setting with all 12 epochs and no selected batch subset.
+
+Numerical precheck clarification (before formal runs): strict pointwise
+allclose at atol=rtol=3e-4 did not pass for batch-4 vs batch-16 features.
+A follow-up found nonzero differences even between repeated batch-4 forwards;
+the released JIT convolution graph embeds allow_tf32=true despite the Python
+backend flags being disabled. The release is retained unchanged in ALL modes.
+Record both original allclose and repeated-forward differences. Functional
+prechecks require normalized feature L2 difference <1e-3 and each original
+batch-4 loss difference <1e-3; a live smoke test also checks update decisions.
+Full-run accuracy, update counts and routes remain measured outcomes. No
+bitwise identity or fully TF32-disabled execution is claimed for this JIT model.
+
+The first smoke run exposed a reporting-schema error: prefetch's input-plan
+hash omitted batch_id, whereas FIFO's included it. Raw records are retained;
+no formal training was started from that failed check. The schema is corrected.
+Subsequent smoke tests use the already-used 180 ms period to exercise actual
+merged F0 forwards; the full comparison remains 105 ms. Smoke timings/accuracy
+are not treated as full-training results.

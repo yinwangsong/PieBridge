@@ -1,0 +1,49 @@
+% Online scheduling extension; matches the measured batch and feature schedulers.
+\begingroup
+\color{blue}
+\subsection{Reordering Training Tasks for Co-Existing with Foreground Inference Tasks}
+\label{subsec:reorder}
+
+Different proxy networks take different amounts of time to process a batch.
+When foreground inference runs periodically, background training must fit between requests.
+FIFO waits if the next batch cannot finish in the remaining time, even when a later batch could fit.
+Reorder uses this gap by running a suitable later task first.
+It changes which task starts next; it does not interrupt a task that is already running.
+
+\noindent\textbf{Choosing the next batch.}
+Without feature caching, each task is a complete training batch.
+Before starting one, we wait for any due foreground requests to finish.
+We calculate the time left before the next request and subtract a small safety margin.
+We first check the oldest waiting batch.
+If its estimated runtime fits, we run it, just as FIFO would.
+Otherwise, we look ahead through a limited number of waiting batches.
+For each proxy, we consider only its earliest waiting batch, keeping batches for the same proxy in order.
+Among the candidates that fit, we choose the one with the longest estimated runtime, using the earlier batch to break ties.
+This aims to use as much of the gap as possible.
+If no candidate fits, we wait and check again.
+
+Figure~\ref{fig:reorder-example} shows three batches, A, B, and C, that use different proxies and need 15\,ms, 10\,ms, and 5\,ms, respectively.
+The available training budget before foreground inference is 20\,ms.
+Both methods first run A, leaving 5\,ms.
+FIFO then waits because B cannot fit, whereas Reorder runs C in the remaining time.
+After foreground inference, FIFO still needs to run B and C, while Reorder only needs to run B.
+These durations illustrate the selection rule.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.98\columnwidth,pagebox=cropbox]{figures/reorder_piebridge.pdf}
+    \caption{\textcolor{blue}{An example of FIFO and Reorder with a 20\,ms training budget between foreground inference requests. After A finishes, FIFO leaves 5\,ms unused because B cannot fit. Reorder uses this time to finish C, leaving less training work for the next window. Durations are illustrative.}}
+    \label{fig:reorder-example}
+\end{figure}
+
+\noindent\textbf{Keeping batches from waiting too long.}
+We count how often later batches run ahead of each waiting batch.
+Once the oldest batch reaches a preset limit, we stop letting other batches pass it and wait until it fits.
+Runtime estimates come from measurements and are updated as training proceeds.
+For a complete training batch, the estimate reserves time for a full backward update before the loss-based decision is known.
+Section~\ref{subsec:orin-periodic} gives the settings used in our experiments.
+
+\input{sec-design-prefetch}
+\input{sec-design-caching-reorder}
+\par
+\endgroup

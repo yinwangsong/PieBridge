@@ -1,0 +1,502 @@
+[
+  {
+    "proxy": 0,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.011527061462402344,
+    "grouping_relative_l2_error": 0.0003776475496124476,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 0.0005207061767578125,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 49.81387499719858,
+        "p95": 50.38899452483747,
+        "p99": 50.52684473688714,
+        "max": 50.56935700122267
+      },
+      "2": {
+        "p50": 86.89277697703801,
+        "p95": 90.2183559956029,
+        "p99": 90.64110219595022,
+        "max": 90.64861899241805
+      },
+      "4": {
+        "p50": 160.3332584782038,
+        "p95": 160.56508441106416,
+        "p99": 160.6160716281738,
+        "max": 160.63119802856818
+      }
+    },
+    "head_ms": {
+      "p50": 2.2507499961648136,
+      "p95": 3.1759838195284824,
+      "p99": 3.3618921518791467,
+      "max": 3.41786997159943
+    }
+  },
+  {
+    "proxy": 1,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.003064274787902832,
+    "grouping_relative_l2_error": 0.00034625123953446746,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 9.1552734375e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 36.2499464827124,
+        "p95": 36.716861874447204,
+        "p99": 36.79707495553885,
+        "max": 36.79979400476441
+      },
+      "2": {
+        "p50": 62.92749149724841,
+        "p95": 63.058113781153224,
+        "p99": 63.19529733562376,
+        "max": 63.24904796201736
+      },
+      "4": {
+        "p50": 118.14236649661325,
+        "p95": 118.26599256601185,
+        "p99": 118.30759459757246,
+        "max": 118.31344099482521
+      }
+    },
+    "head_ms": {
+      "p50": 2.3600000131409615,
+      "p95": 3.1260068964911625,
+      "p99": 3.3731786231510346,
+      "max": 3.459854982793331
+    }
+  },
+  {
+    "proxy": 2,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.0038166046142578125,
+    "grouping_relative_l2_error": 0.0003253316390328109,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 4.3392181396484375e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 31.90868752426468,
+        "p95": 32.48447952209972,
+        "p99": 32.55244511179626,
+        "max": 32.56447199964896
+      },
+      "2": {
+        "p50": 54.68744350946508,
+        "p95": 55.2793029230088,
+        "p99": 55.57264108443633,
+        "max": 55.625009001232684
+      },
+      "4": {
+        "p50": 106.04032999253832,
+        "p95": 106.20644613809418,
+        "p99": 106.23094034439418,
+        "max": 106.23964498518035
+      }
+    },
+    "head_ms": {
+      "p50": 2.4125924974214286,
+      "p95": 2.89952709863428,
+      "p99": 2.982544725527987,
+      "max": 2.9971610056236386
+    }
+  },
+  {
+    "proxy": 3,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.00806283950805664,
+    "grouping_relative_l2_error": 0.00036023338907398283,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 0.0001087188720703125,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 33.622181974351406,
+        "p95": 33.86700154514983,
+        "p99": 34.06034108775202,
+        "max": 34.12407700670883
+      },
+      "2": {
+        "p50": 58.96345301880501,
+        "p95": 59.083224160713144,
+        "p99": 59.135465894360095,
+        "max": 59.14988700533286
+      },
+      "4": {
+        "p50": 107.20768899773248,
+        "p95": 107.32503122126218,
+        "p99": 107.44173724378925,
+        "max": 107.48647700529546
+      }
+    },
+    "head_ms": {
+      "p50": 2.830230485415086,
+      "p95": 3.44462253851816,
+      "p99": 3.6771377938566734,
+      "max": 3.7575220339931548
+    }
+  },
+  {
+    "proxy": 4,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.0024929046630859375,
+    "grouping_relative_l2_error": 0.0002921640407294035,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 9.5367431640625e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 25.9405110264197,
+        "p95": 26.225781728862785,
+        "p99": 26.326997370342724,
+        "max": 26.365444995462894
+      },
+      "2": {
+        "p50": 44.37571999733336,
+        "p95": 44.855679461034015,
+        "p99": 45.11415809101891,
+        "max": 45.120384951587766
+      },
+      "4": {
+        "p50": 84.85490648308769,
+        "p95": 85.16716718731914,
+        "p99": 85.61454827315174,
+        "max": 85.74963896535337
+      }
+    },
+    "head_ms": {
+      "p50": 2.6532520132604986,
+      "p95": 3.267172005143948,
+      "p99": 3.400874258368276,
+      "max": 3.4447509679012
+    }
+  },
+  {
+    "proxy": 5,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.002009153366088867,
+    "grouping_relative_l2_error": 0.0002899888495448977,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 9.584426879882812e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 25.25594152393751,
+        "p95": 25.427498781937174,
+        "p99": 25.454732803045772,
+        "max": 25.46507999068126
+      },
+      "2": {
+        "p50": 44.457848998717964,
+        "p95": 44.77319388824981,
+        "p99": 44.84224408050068,
+        "max": 44.84863800462335
+      },
+      "4": {
+        "p50": 82.77444649138488,
+        "p95": 82.9364405683009,
+        "p99": 82.98664197616745,
+        "max": 83.00652902107686
+      }
+    },
+    "head_ms": {
+      "p50": 2.325887529877946,
+      "p95": 2.9760813718894488,
+      "p99": 3.1687326380051672,
+      "max": 3.1876270077191293
+    }
+  },
+  {
+    "proxy": 6,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.0022001266479492188,
+    "grouping_relative_l2_error": 0.0003223633102606982,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 3.0994415283203125e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 21.053724485682324,
+        "p95": 21.405797888292,
+        "p99": 21.49851724738255,
+        "max": 21.511490980628878
+      },
+      "2": {
+        "p50": 36.52210999280214,
+        "p95": 36.68119955982547,
+        "p99": 36.7341417708667,
+        "max": 36.74929600674659
+      },
+      "4": {
+        "p50": 65.29307400342077,
+        "p95": 65.38006014015991,
+        "p99": 65.47192636062391,
+        "max": 65.50706102279946
+      }
+    },
+    "head_ms": {
+      "p50": 2.326159010408446,
+      "p95": 3.0880740232532844,
+      "p99": 3.390991159831174,
+      "max": 3.5047190031036735
+    }
+  },
+  {
+    "proxy": 7,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.002999544143676758,
+    "grouping_relative_l2_error": 0.00048210611566901207,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 8.678436279296875e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 16.31245997850783,
+        "p95": 16.61468853999395,
+        "p99": 16.625429460546002,
+        "max": 16.628992976620793
+      },
+      "2": {
+        "p50": 28.378782997606322,
+        "p95": 28.600744393770583,
+        "p99": 28.630243326188065,
+        "max": 28.636386967264116
+      },
+      "4": {
+        "p50": 51.38202151283622,
+        "p95": 51.49031213077251,
+        "p99": 51.51289947389159,
+        "max": 51.51576700154692
+      }
+    },
+    "head_ms": {
+      "p50": 2.297006984008476,
+      "p95": 3.16988791746553,
+      "p99": 3.2550862577045336,
+      "max": 3.26916400808841
+    }
+  },
+  {
+    "proxy": 8,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.001316070556640625,
+    "grouping_relative_l2_error": 0.00019359825819265097,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 7.534027099609375e-05,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 12.770412518875673,
+        "p95": 13.044117344543338,
+        "p99": 13.073083180352114,
+        "max": 13.07636802084744
+      },
+      "2": {
+        "p50": 21.096044540172443,
+        "p95": 21.554119425127283,
+        "p99": 21.701188405277207,
+        "max": 21.722245030105114
+      },
+      "4": {
+        "p50": 38.85198099305853,
+        "p95": 39.20082242693752,
+        "p99": 39.315614507650025,
+        "max": 39.32689898647368
+      }
+    },
+    "head_ms": {
+      "p50": 2.263646514620632,
+      "p95": 2.700336891575716,
+      "p99": 2.904060887522064,
+      "max": 2.968168002553284
+    }
+  },
+  {
+    "proxy": 9,
+    "feature_shape": [
+      1000
+    ],
+    "bytes_per_image": 4000,
+    "grouping_max_abs_error": 0.010305404663085938,
+    "grouping_relative_l2_error": 0.0003573689900804311,
+    "grouping_allclose": false,
+    "repeated_batch_max_abs_error": 0.0,
+    "repeated_batch_relative_l2_error": 0.0,
+    "maximum_logical_batch_loss_error": 0.00016498565673828125,
+    "embedded_convolution_flags": [
+      {
+        "kind": "aten::_convolution",
+        "flags": [
+          false,
+          false,
+          true,
+          true
+        ]
+      }
+    ],
+    "forward_ms": {
+      "1": {
+        "p50": 7.216145488200709,
+        "p95": 7.530908042099326,
+        "p99": 7.645045707467943,
+        "max": 7.648998987860978
+      },
+      "2": {
+        "p50": 12.676171027123928,
+        "p95": 12.975164357339963,
+        "p99": 13.046579513465986,
+        "max": 13.069231994450092
+      },
+      "4": {
+        "p50": 21.967752516502514,
+        "p95": 22.094236116390675,
+        "p99": 22.184532651444897,
+        "max": 22.209291986655444
+      }
+    },
+    "head_ms": {
+      "p50": 2.7025800372939557,
+      "p95": 3.082403106964193,
+      "p99": 3.1432484328979626,
+      "max": 3.15306696575135
+    }
+  }
+]

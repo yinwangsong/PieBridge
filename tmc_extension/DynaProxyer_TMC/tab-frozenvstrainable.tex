@@ -1,0 +1,20 @@
+\begin{table*}[!t]
+\caption{Breakdown of different parts in a PET iteration. mini-batch size=4; Device: Jetson TX2.}
+\label{table-frozenvstrainable}
+\centering
+    \footnotesize
+        \setlength{\tabcolsep}{1.5mm}{
+        \begin{tabular}{@{}lllllll@{}}
+        \toprule
+        \multirow{2}{*}{\textbf{Model}}     & \multirow{2}{*}{\textbf{PET Config.}} & \multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}\textbf{Upd.} \\ \textbf{Paras.}\end{tabular}} & \multicolumn{2}{l}{\textbf{Frozen Layers}}                                  & \multicolumn{2}{l}{\textbf{Trainable Layers}}                                      \\ \cmidrule(l){4-7} 
+                                   &                              &                                                                         & \begin{tabular}[c]{@{}l@{}}Time \\ (Sec.)\end{tabular} & FLOPs (G) & \begin{tabular}[c]{@{}l@{}}Time\\ (Sec.)\end{tabular} & FLOPs (G)         \\ \midrule
+        \multirow{3}{*}{ViT\_base} & Linear Probing                         & 0.69\%                                                                  & 0.46                                                   & 67.44     & 1.88$\times 10^{-3}$                                  & 0.36              \\
+                                   & Adapters (6)                 & 1.75\%                                                                  & 0.64                                                   & 134.86    & 5.44$\times 10^{-3}$                                  & 0.54              \\
+                                   & Adapters (12)                & 2.80\%                                                                  & 0.84                                                   & 202.31    & 1.24$\times 10^{-2}$                                  & 0.71              \\ \midrule
+        \multirow{2}{*}{ResNet50}  & Linear Probing                         & 0.81\%                                                                  & 0.06                                                   & 16.53     & 4.36$\times 10^{-4}$                                  & 4$\times 10^{-2}$ \\
+                                   & Last-K (K=3)                 & 14.3\%                                                                  & 0.07                                                   & 15.59     & 2.56$\times 10^{-3}$                                  & 2.15              \\ \bottomrule
+        \end{tabular}}
+    
+    
+    
+\end{table*}

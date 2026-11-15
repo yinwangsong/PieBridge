@@ -1,0 +1,29 @@
+% Generated only from complete, verified full-12-epoch measurements.
+% Evidence: ../orin_scheduling/results/feature_20261113_prefetch_full_v2/
+\begingroup
+\color{blue}
+\noindent\textbf{Prefetching.}
+We compute features for upcoming batches before the classifier needs them, as described in Section~\ref{subsec:feature-prefetch}.
+We look ahead by up to 128 batches and reserve space for at most 32 batches of features.
+A single forward call can process one, two, or four batches that use the same proxy.
+The classifier still uses batches of four images and updates in the original order in both prefetch methods.
+Each selected training image passes through its assigned proxy once per epoch.
+We use each feature once and then release it; the next epoch computes new features.
+Evaluation also recomputes its features.
+All prefetch work counts toward training time, from preparing the first features to using the last ones.
+
+
+
+\noindent\textbf{Results.}
+Table~\ref{tab:orin-prefetch} shows the results. Accuracy is measured after epoch 12. A miss means that an inference request takes more than 33.20\,ms to finish.
+Compared with FIFO without caching, Reorder alone cuts training time by 9.82\%.
+Adding prefetching to FIFO cuts it by 22.73\%, and combining Reorder with prefetching cuts it by 29.85\%.
+On top of FIFO with prefetching, reordering feature computation reduces training time by a further 9.21\%.
+
+Final accuracy is 91.85\% for FIFO without caching, 91.92\% for FIFO with prefetching, and 91.39\% for Reorder with prefetching.
+The combined method is 0.46 percentage points below the baseline. These runs do not establish that the methods reach the same final accuracy.
+The feature buffer uses at most 359.38\,KiB in these runs. This excludes memory for models, inputs, and operator workspaces.
+
+
+\par
+\endgroup

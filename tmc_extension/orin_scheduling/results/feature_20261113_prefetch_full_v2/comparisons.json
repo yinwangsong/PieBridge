@@ -1,0 +1,29 @@
+[
+  {
+    "period_ms": 105,
+    "mode": "prefetch_fifo",
+    "baseline": "fifo",
+    "training_time_saved_percent": 22.728886403603667,
+    "total_time_saved_percent": 6.6600962587942565,
+    "accuracy_difference_pp": 0.07083407118823004,
+    "deadline_miss_difference_pp": 0.009239091111631683
+  },
+  {
+    "period_ms": 105,
+    "mode": "prefetch_reorder",
+    "baseline": "fifo",
+    "training_time_saved_percent": 29.847534597826574,
+    "total_time_saved_percent": 8.746492705597886,
+    "accuracy_difference_pp": -0.4604214627235734,
+    "deadline_miss_difference_pp": 0.00039996584108526693
+  },
+  {
+    "period_ms": 105,
+    "mode": "reorder",
+    "baseline": "fifo",
+    "training_time_saved_percent": 9.816423501852666,
+    "total_time_saved_percent": 2.875273051032856,
+    "accuracy_difference_pp": 0.0,
+    "deadline_miss_difference_pp": -0.004172926055750292
+  }
+]

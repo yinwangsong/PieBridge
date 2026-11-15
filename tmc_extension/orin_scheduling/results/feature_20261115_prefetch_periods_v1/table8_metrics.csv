@@ -1,0 +1,4 @@
+period_ms,fifo_training_seconds,prefetch_reorder_training_seconds,training_time_saved_percent,fifo_accuracy_percent,prefetch_reorder_accuracy_percent,source_directory,reused_from_table7
+105,737.0483463078854,517.0575861409307,29.847534597826574,91.85408181335222,91.39366035062865,orin_scheduling/results/feature_20261113_prefetch_full_v2,True
+135,620.9235710691428,447.7865400731098,27.883791027278193,91.85408181335222,91.92491588454045,orin_scheduling/results/feature_20261115_prefetch_periods_v1,False
+180,514.4012292700354,391.0787782437401,23.97398062234355,91.85408181335222,91.69470515317867,orin_scheduling/results/feature_20261115_prefetch_periods_v1,False
