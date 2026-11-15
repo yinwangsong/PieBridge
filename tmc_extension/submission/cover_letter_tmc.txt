@@ -1,0 +1,28 @@
+15 November 2026
+
+Editor-in-Chief
+IEEE Transactions on Mobile Computing
+
+Dear Editor-in-Chief,
+
+Please consider our manuscript, “PETCube: Accelerating On-Device Training with Online Approximation and Foreground-Aware Scheduling,” for publication as a regular article in IEEE Transactions on Mobile Computing.
+
+PETCube addresses a practical challenge in mobile computing: accelerating on-device model personalization when training shares limited accelerator resources with foreground inference. It combines data-aware approximation of frozen layers with feature caching and task reordering to reduce training cost and use the gaps between inference requests.
+
+This submission extends our SenSys 2024 paper, “PieBridge: Fast and Parameter-Efficient On-Device Training via Proxy Networks” (DOI: 10.1145/3666025.3699327). The conference paper introduced proxy-network generation and data-aware routing. The journal manuscript adds an online design for training alongside foreground inference, while retaining the original offline preparation. Its main extensions are:
+
+1. Feature caching (Section 3.4.1). A bounded buffer stores features before the first trainable layer, allowing frozen forward computation and subsequent training to run in separate gaps. Features are consumed in the original batch order and released after use within each epoch. Grouping batches that share a proxy also improves forward-computation efficiency.
+
+2. Foreground-aware scheduling (Section 3.4 and Algorithm 2). Reorder selects pending computations whose estimated runtimes fit before the next inference request. It combines foreground priority, limited lookahead, and cache management to use time that FIFO can leave idle, without interrupting running operations.
+
+3. New device experiments (Section 5.5, Table 6, and Figure 18). We evaluate ResNet50 on Caltech-101 using a Jetson AGX Orin. Across foreground inference periods of 105, 135, and 180 ms, caching and reordering reduce the time for 12 training epochs by 23.97–29.85% relative to FIFO without caching, excluding evaluation time. The experiments also compare the optimizations separately and report final accuracy and foreground response times.
+
+These additions connect training acceleration with resource sharing on mobile and embedded devices. We believe this system design and its evaluation on real hardware are well suited to TMC's readership. New and revised material is marked in blue in the manuscript.
+
+Thank you for considering our manuscript.
+
+Sincerely,
+Mengwei Xu
+Corresponding author, on behalf of the authors
+Beijing University of Posts and Telecommunications
+mwx@bupt.edu.cn

@@ -5,6 +5,7 @@ Current manuscript and the Jetson AGX Orin experiments for feature caching and f
 ## Contents
 
 - [Final manuscript PDF](DynaProxyer_TMC.pdf) and [LaTeX source](DynaProxyer_TMC/main.tex).
+- [TMC cover letter draft](submission/cover_letter_tmc.pdf), [editable text](submission/cover_letter_tmc.txt), and [submission notes](submission/README.txt).
 - `PieBridge/`: the original implementation plus the four benchmark/policy modules used for the formal Orin experiments.
 - `orin_scheduling/`: experiment protocols, analysis/table generation scripts, and final results for Table 6 and Figure 18.
 
