@@ -32,7 +32,7 @@ The result directories contain final aggregate metrics, per-epoch summaries, con
 Published `main_p*.json` files retain all run/epoch metrics but omit `epoch_traces` and `inference_trace`; these detailed execution logs remain local. `publication_manifest.json` records the original and published hashes and the removed fields.
 Smoke tests, intermediate experiments, progress snapshots, logs, build caches, downloaded runtimes, model/data assets, and old archives are not included.
 
-To regenerate the manuscript result sections and the period-comparison chart from these summaries (the plot requires Python with Matplotlib, NumPy, and the Liberation Serif font):
+To regenerate the manuscript result sections and the period-comparison chart from these summaries (the plot requires Python with Matplotlib, NumPy, and the DejaVu Sans font):
 
 ```sh
 python3 orin_scheduling/render_prefetch_section.py
