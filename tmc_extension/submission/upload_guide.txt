@@ -1,0 +1,59 @@
+PETCube — TMC 投稿文件说明
+整理日期：2026-11-15
+
+请解压 TMC_submission.zip，按下面的用途分别上传 PDF；不要将整个 ZIP
+作为主稿上传。ZIP 是本地交付包，期刊系统中的文件类别名称以实际界面为准。
+
+1. 01_PETCube_Manuscript.pdf
+   用途：Main Manuscript / Manuscript（正式主稿）。
+   16 页，含全部正文、图表、参考文献和作者信息。
+   已去掉正文的蓝色修订标记，保留图表本身的颜色。
+   只将这一份指定为主稿，不要将下述标注稿重复指定为主稿。
+
+2. 02_PETCube_Cover_Letter.pdf
+   用途：Cover Letter（给编辑的投稿信）。
+   1 页，落款 Wangsong Yin，单位 Peking University。
+   已披露 SenSys 2024 会议版本，并列出新增设计、实验及对应章节。
+   如系统只提供 Cover Letter 文本框，可从该 PDF 复制文字，或使用项目中的
+   submission/cover_letter_tmc.txt。
+
+3. 03_PieBridge_SenSys2024.pdf
+   用途：Previously Published Paper / Related Paper / Supportive Documentation
+   （已发表会议版本，供编辑和审稿人核对扩展内容）。
+   15 页，来自作者公开主页，文件内容未修改。
+   DOI：10.1145/3666025.3699327。
+   不作为本稿的主稿或拟随新论文公开发表的 Supplementary Material。
+
+4. 04_PETCube_Marked_Manuscript.pdf
+   用途：Marked Manuscript / Supporting Document（蓝色标注稿）。
+   16 页，与正式主稿的文字、数据和分页相同，仅保留蓝色修订标记。
+   这是便于核对的附加材料，并非已确认的 TMC 初投强制文件。
+   本次 cover letter 说明随附此稿；如系统没有专用类别，放入供编辑/审稿人
+   查阅的支持文件类别，避免选成用于随论文公开发表的补充材料。
+
+本次整理遵循的要点
+- 会议扩展稿须引用前作、说明差异，并提供前作副本。正文已补上引用，
+  cover letter 已说明扩展内容，因此不另建重复的扩展说明 PDF。
+- IEEE CS 公布的篇幅规则为常规论文 12 页、投稿最多 18 页，包括参考文献
+  和作者介绍。本稿 16 页；若录用后最终排版仍超过 12 页，将涉及超页费，
+  具体金额以届时期刊规则为准。本次未通过拆分参考文献规避页数限制。
+- 不把摘要、引言、背景、调度、Orin 等局部预览或单独图表作为补充论文上传。
+  本次也没有另设需要随论文公开发表的 Supplementary Material。
+- 压缩包只有上述四份 PDF、本说明和 manifest.json，不包含中间结果、日志、
+  编译缓存、数据集或模型。LaTeX 源文件仍在项目中，按系统要求另行提供。
+- 当前论文通讯作者仍为 Mengwei Xu；cover letter 由 Wangsong Yin 署名。
+  全体作者同意及无同时在审等声明尚未由作者确认，应由提交人据实填写。
+  本次仅准备文件，未登录投稿系统或提交论文。
+
+官方依据（2026-11-15 核对）
+IEEE Computer Society 作者指南：前作披露、差异说明、支持文件、补充材料分离。
+https://www.computer.org/publications/author-resources
+IEEE CS 篇幅政策 PDF（文档标注生效日 2018-02-18；本说明不引用其历史收费单价）：
+https://ieeecs-media.computer.org/assets/pdf/MOPC_policy.pdf
+TMC 官方征稿及作者指南入口：
+https://www.computer.org/digital-library/journals/tm/cfp-ieee-transactions-mobile-computing
+
+会议论文来源
+https://xumengwei.github.io/files/SenSys24-PieBridge.pdf
+实际获取路径（同一作者主页的公开 GitHub 仓库）：
+https://raw.githubusercontent.com/xumengwei/xumengwei.github.io/master/files/SenSys24-PieBridge.pdf

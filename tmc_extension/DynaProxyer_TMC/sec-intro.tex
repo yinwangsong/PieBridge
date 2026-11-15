@@ -93,6 +93,7 @@ Our contributions are as follows.
 \item \textbf{Feature caching and scheduling.} We add feature caching and task reordering for training alongside periodic foreground inference. A bounded cache separates computation before the first trainable layer from the remaining training steps. The scheduler uses runtime estimates to choose computations that fit between requests, while cached features are consumed in the original batch order and released after use.
 \item \textbf{Evaluation on real devices.} We implement \sys on mobile and embedded devices and evaluate it on four datasets and three NN architectures, achieving 1.5$\times$--2.5$\times$ speedup over PET baselines. On Jetson AGX Orin, caching and reordering reduce 12-epoch training time, excluding evaluation, by 23.97--29.85\% relative to FIFO without caching across three foreground inference periods.
 \end{itemize}
+This article extends our SenSys 2024 paper, \textit{PieBridge}~\cite{yin2024piebridge}, with feature caching, foreground-aware task reordering, and experiments on training alongside periodic inference.
 \par
 \endgroup
 

@@ -18,9 +18,16 @@ Author confirmations pending:
 - All authors approve submission to TMC.
 These declarations are omitted until confirmed; no submission has been made.
 
-Before submission, cite the SenSys paper in the manuscript and provide a copy
-as supporting documentation. The current manuscript has no explicit citation
-to DOI 10.1145/3666025.3699327. This task drafts the cover letter only.
+The manuscript now cites the SenSys paper (DOI 10.1145/3666025.3699327)
+and describes the added material at the end of the Introduction.
+supporting/PieBridge_SenSys2024.pdf is the unchanged author-hosted conference PDF.
+The cover letter accompanies a clean main manuscript and a separate blue-marked copy.
+
+Prepare the four-PDF submission bundle from the project root:
+  python3 submission/prepare_submission.py
+Output: TMC_submission/ and TMC_submission.zip (local delivery archive).
+The bundle includes an upload guide; it excludes previews, build files, and logs.
+No files are submitted to the journal by this command.
 
 Sources checked on 15 November 2026:
 IEEE Computer Society author guidelines (prior-publication disclosure):

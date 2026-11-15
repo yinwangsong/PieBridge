@@ -1,0 +1,42 @@
+{
+  "journal": "IEEE Transactions on Mobile Computing",
+  "document_type": "Regular paper; initial submission package",
+  "submitted_to_journal": false,
+  "cover_letter_signatory": "Wangsong Yin",
+  "corresponding_author": "Mengwei Xu",
+  "clean_and_marked_text_identical": true,
+  "author_declarations_confirmed": false,
+  "conference_doi": "10.1145/3666025.3699327",
+  "conference_source": "https://xumengwei.github.io/files/SenSys24-PieBridge.pdf",
+  "conference_download": "https://raw.githubusercontent.com/xumengwei/xumengwei.github.io/master/files/SenSys24-PieBridge.pdf",
+  "files": [
+    {
+      "file": "01_PETCube_Manuscript.pdf",
+      "role": "main_manuscript",
+      "pages": 16,
+      "bytes": 1534323,
+      "sha256": "7cbd049b24e250c7b5e1f4f944e7a2816a51971c19cbac0799a6b9d3fe019845"
+    },
+    {
+      "file": "02_PETCube_Cover_Letter.pdf",
+      "role": "cover_letter",
+      "pages": 1,
+      "bytes": 47031,
+      "sha256": "f294b52c372b7b42f2f1f70b5ccfafd77bbf5bad288e8076dd8156412adad378"
+    },
+    {
+      "file": "03_PieBridge_SenSys2024.pdf",
+      "role": "previously_published_paper",
+      "pages": 15,
+      "bytes": 3828800,
+      "sha256": "82a8811c78de827d075f7f3fcb3814b5548a0d703226706bc8f8340bada669ac"
+    },
+    {
+      "file": "04_PETCube_Marked_Manuscript.pdf",
+      "role": "marked_supporting_manuscript",
+      "pages": 16,
+      "bytes": 1534479,
+      "sha256": "cb4fdced148426e11f8a8a9acee7da2fa0521205f7974d57ae4ca09b8ce38259"
+    }
+  ]
+}

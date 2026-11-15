@@ -9,6 +9,12 @@ Current manuscript and the Jetson AGX Orin experiments for feature caching and f
 - `PieBridge/`: the original implementation plus the four benchmark/policy modules used for the formal Orin experiments.
 - `orin_scheduling/`: experiment protocols, analysis/table generation scripts, and final results for Table 6 and Figure 18.
 
+## Initial submission files
+
+The [submission bundle](TMC_submission/00_UPLOAD_GUIDE.txt) contains four PDFs: a clean main manuscript (16 pages), a cover letter signed by Wangsong Yin (1 page), the original SenSys 2024 paper (15 pages), and a separate blue-marked manuscript (16 pages). The main and marked copies have identical text and pagination. The Introduction cites the conference version and describes the extensions.
+
+Run `python3 submission/prepare_submission.py` to rebuild this bundle and a local `TMC_submission.zip`. Upload the PDFs individually by their roles; the ZIP is for local delivery. No submission to the journal is performed.
+
 ## Build the paper
 
 From this directory, run:
