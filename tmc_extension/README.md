@@ -16,7 +16,7 @@ From this directory, run:
 bash DynaProxyer_TMC/build.sh
 ```
 
-The output is `DynaProxyer_TMC/PieBridge_TMC.pdf`. The checked-in final PDF has 18 pages.
+The output is `DynaProxyer_TMC/PieBridge_TMC.pdf`. The checked-in final PDF has 17 pages.
 
 ## Results included
 
