@@ -5,18 +5,18 @@
 \subsection{Coexisting with Periodic Inference on Jetson Orin}
 \label{subsec:orin-periodic}
 
-\begin{table*}[!t]
+\begin{table}[!t]
 \color{blue}
 \caption{Experiment on Jetson orin with a periodic forground inference workload.}
 \label{tab:orin-prefetch}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{2pt}
 \renewcommand{\arraystretch}{1.10}
 \arrayrulecolor{blue}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Method & \makecell{Training\\(s)} & \makecell{Training time\\saved (\%)} & \makecell{Accuracy\\(\%)} & \makecell{Inference\\p99 (ms)} & \makecell{Misses\\(\%)} \\
+Method & \makecell{Training\\time (s)} & \makecell{Training\\time saved\\(\%)} & \makecell{Accuracy\\(\%)} & \makecell{Inference\\p99 (ms)} & \makecell{Misses\\(\%)} \\
 \midrule
 FIFO & 737.05 & 0.00 & 91.85 & 26.56 & 0.0042 \\
 Reorder & 664.70 & 9.82 & 91.85 & 25.88 & 0.0000 \\
@@ -25,7 +25,7 @@ Reorder + prefetch & 517.06 & 29.85 & 91.39 & 26.02 & 0.0046 \\
 \bottomrule
 \end{tabular}
 \arrayrulecolor{black}
-\end{table*}
+\end{table}
 
 We test whether reordering training work and computing features ahead of time can speed up background training while foreground inference runs regularly.
 We compare four methods: FIFO, Reorder, FIFO with prefetching, and Reorder with prefetching.

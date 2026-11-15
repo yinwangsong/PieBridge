@@ -95,7 +95,7 @@ The 105\,ms results are reused from Table~\ref{tab:orin-prefetch}; we run both m
 \begin{figure}[!t]
 \color{blue}
 \centering
-\includegraphics[width=80mm]{figures/orin_period_sweep.pdf}
+\includegraphics[width=72mm]{figures/orin_period_sweep.pdf}
 \caption{Training time under different foreground inference periods. Bars show the time for 12 training epochs, excluding evaluation. Percentages show the reduction relative to FIFO without caching.}
 \label{fig:orin-period-sweep}
 \end{figure}

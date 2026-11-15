@@ -26,6 +26,7 @@ Table 6 uses `orin_scheduling/results/feature_20261113_prefetch_full_v2/`: four 
 Figure 18 reuses the 105 ms pair and adds `feature_20261115_prefetch_periods_v1/`: FIFO and Reorder + prefetch at 135 and 180 ms.
 Each condition runs once for 12 epochs, with full evaluation after every epoch. Reported training time excludes evaluation.
 Feature caching is restricted to the current epoch; features are consumed once and released.
+Table 6 uses a single-column layout; Figure 18 is included at 72 mm width to match the surrounding text visually.
 Figure 18 plots training time from a zero baseline and labels the percentage reduction relative to uncached FIFO. No error bars are shown because each condition was run once.
 
 The result directories contain final aggregate metrics, per-epoch summaries, configuration, source snapshots, and the final verification outcome.

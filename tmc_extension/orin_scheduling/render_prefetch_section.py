@@ -42,24 +42,24 @@ We use each feature once and then release it; the next epoch computes new featur
 Evaluation also recomputes its features.
 All prefetch work counts toward training time, from preparing the first features to using the last ones.
 
-\begin{table*}[!t]
+\begin{table}[!t]
 \color{blue}
 \caption{Experiment on Jetson orin with a periodic forground inference workload.}
 \label{tab:orin-prefetch}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{2pt}
 \renewcommand{\arraystretch}{1.10}
 \arrayrulecolor{blue}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Method & \makecell{Training\\(s)} & \makecell{Training time\\saved (\%)} & \makecell{Accuracy\\(\%)} & \makecell{Inference\\p99 (ms)} & \makecell{Misses\\(\%)} \\
+Method & \makecell{Training\\time (s)} & \makecell{Training\\time saved\\(\%)} & \makecell{Accuracy\\(\%)} & \makecell{Inference\\p99 (ms)} & \makecell{Misses\\(\%)} \\
 \midrule
 @@ROWS@@
 \bottomrule
 \end{tabular}
 \arrayrulecolor{black}
-\end{table*}
+\end{table}
 
 \noindent\textbf{Results.}
 @@RESULTS@@
@@ -87,9 +87,9 @@ Method & \makecell{Training\\(s)} & \makecell{Training time\\saved (\%)} & \make
     assert '@@' not in text
     setup = (root/'paper_full12_template.tex').read_text()
     assert '@@' not in setup
-    # Declare the wide table early so it stays near the experiment discussion.
-    start = text.index(r'\begin{table*}')
-    end = text.index(r'\end{table*}', start) + len(r'\end{table*}')
+    # Declare the single-column table near the experiment setup.
+    start = text.index(r'\begin{table}')
+    end = text.index(r'\end{table}', start) + len(r'\end{table}')
     table_float = text[start:end]
     text = text[:start] + text[end:]
     anchor = r'\label{subsec:orin-periodic}'
