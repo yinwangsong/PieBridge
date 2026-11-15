@@ -22,7 +22,7 @@ These additions connect training acceleration with resource sharing on mobile an
 Thank you for considering our manuscript.
 
 Sincerely,
-Mengwei Xu
-Corresponding author, on behalf of the authors
-Beijing University of Posts and Telecommunications
-mwx@bupt.edu.cn
+Wangsong Yin
+On behalf of the authors
+Peking University
+yws@stu.pku.edu.cn

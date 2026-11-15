@@ -8,8 +8,9 @@ Build from the project root:
   latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=submission/build submission/cover_letter_tmc.tex
   cp submission/build/cover_letter_tmc.pdf submission/cover_letter_tmc.pdf
 
-The letter uses the current manuscript title and corresponding-author details,
-and explicitly discloses the SenSys 2024 version and the journal additions.
+The letter uses the current manuscript title and is signed by Wangsong Yin,
+using his affiliation and email from the manuscript. It explicitly discloses
+the SenSys 2024 version and the journal additions.
 Its date is the drafting date; update it if submitting on a later date.
 
 Author confirmations pending:
