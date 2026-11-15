@@ -14,10 +14,10 @@ The small set of trainable parameters can also be protected within a trusted exe
 These properties make PET attractive for on-device personalization.
 
 A small number of trainable parameters, however, does not necessarily mean a short training time.
-When fine-tuning ResNet50~\cite{he2015deep} on a MI 10 smartphone, PET methods that update less than 1\% of the parameters still take up to 96\%, and on average 65\%, of the time needed for full-model fine-tuning ($\S$\ref{subsec:pre-measure}, Figure~\ref{fig:time_measure}).
+When fine-tuning ResNet50~\cite{he2015deep} on a MI 10 smartphone, PET methods that update less than 1\% of the parameters still take up to 96\%, and on average 65\%, of the time needed for full-model fine-tuning.
 The main cost comes from the frozen layers.
 Although their weights do not change, these layers still compute activations and, when required, propagate gradients to earlier trainable layers.
-Across the PET configurations measured on Jetson TX2, frozen layers account for 96.34--99.59\% of the computation time (Table~\ref{table-frozenvstrainable}).
+Across the PET configurations measured on Jetson TX2, frozen layers account for 96.34--99.59\% of the computation time ($\S$\ref{subsec:pre-measure}).
 Reducing this computation is therefore essential to making PET faster on devices.
 
 We address this bottleneck by approximating frozen layers with smaller \textit{proxy networks}, or \textit{subnets}, that cost less to execute.

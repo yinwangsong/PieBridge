@@ -6,7 +6,7 @@ Current manuscript and the Jetson AGX Orin experiments for feature caching and f
 
 - [Final manuscript PDF](DynaProxyer_TMC.pdf) and [LaTeX source](DynaProxyer_TMC/main.tex).
 - `PieBridge/`: the original implementation plus the four benchmark/policy modules used for the formal Orin experiments.
-- `orin_scheduling/`: experiment protocols, analysis/table generation scripts, and final results for Tables 7 and 8.
+- `orin_scheduling/`: experiment protocols, analysis/table generation scripts, and final results for Tables 6 and 7.
 
 ## Build the paper
 
@@ -16,12 +16,14 @@ From this directory, run:
 bash DynaProxyer_TMC/build.sh
 ```
 
-The output is `DynaProxyer_TMC/PieBridge_TMC.pdf`. The checked-in final PDF has 17 pages.
+The output is `DynaProxyer_TMC/PieBridge_TMC.pdf`. The checked-in final PDF has 16 pages.
 
 ## Results included
 
-Table 7 uses `orin_scheduling/results/feature_20261113_prefetch_full_v2/`: four methods at 105 ms.
-Table 8 reuses the 105 ms pair and adds `feature_20261115_prefetch_periods_v1/`: FIFO and Reorder + prefetch at 135 and 180 ms.
+Tables 6 and 7 were previously numbered 7 and 8 before the background section was shortened; historical experiment files retain those original numbers.
+
+Table 6 uses `orin_scheduling/results/feature_20261113_prefetch_full_v2/`: four methods at 105 ms.
+Table 7 reuses the 105 ms pair and adds `feature_20261115_prefetch_periods_v1/`: FIFO and Reorder + prefetch at 135 and 180 ms.
 Each condition runs once for 12 epochs, with full evaluation after every epoch. Reported training time excludes evaluation.
 Feature caching is restricted to the current epoch; features are consumed once and released.
 

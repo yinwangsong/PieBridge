@@ -72,214 +72,60 @@ Note that when all the components preceding a specific trainable block are froze
 
 \subsection{Preliminaries}
 \label{subsec:pre-measure}
-% \mwx{In this subsection, we perform preliminary measurements to reveal the performance of PETs on local devices, especially focusing on to what extent the parameter efficiency can translate to end-to-end performance improvement.}
-% In this subsection, we perform preliminary measurements to reveal the performance of PET on edge devices, especially focusing on to what extent the parameter efficiency can translate to end-to-end performance improvement.
+\begingroup
+\color{blue}
+\noindent \textbf{PET reduces storage and memory costs.}
+A shared pre-trained model can support multiple tasks by storing and switching only a small set of task-specific parameters~\cite{yuan2023rethinking, yang2023edgefm}.
+These parameters can also fit within a device's Trusted Execution Environment~\cite{zhang2023no}.
+Freezing parameters removes their gradient storage and reduces the activations retained for backpropagation~\cite{NEURIPS2020_81f7acab}.
+For the measured PET configurations of ViT\_base, ResNet50, and MobileNetV3 at batch size 4, estimated training memory is 21.19--38\% of full-model training.
 
-% We perform preliminary measurements that highlight the motivations and challenges to perform on-device PET and provide implications for the design of \sys.
-
-% \noindent \textbf{Observation\#0: PET is parameter efficient.}
-% We report the number of trainable parameters of 4 practical PEFT methods on ViT base, and the result is shown in Figure ~\ref{}.
-% From Table ~\ref{table-PEFT Methods}, PET methods can freeze over 90\% parameters during training.
-% The most aggressive method that only tunes the head has about 0.69\% trainable parameters compared to the number of total parameters, and the BN/LN method that only tunes the Normalization layers has 0.71\% trainable parameters.
-% Since there is no silver bullet configuration, the adapter method can take 0.87\%~2.8\% trainable parameters in different situations.
-% The last-k method tunes the last $k$ layers of the pre-trained model.
-% Although it is relatively less parameter-efficient, it is still widely used as a straightforward engineering method in various applications~\cite{}.
-
-\noindent \textbf{Observation\#1: PET is friendly to the on-device deployment of foundation NNs.}
-With the scaling of NN size and advancements in pre-training techniques ~\cite{dosovitskiy2021an, he2020momentum}, on-device NNs are converging from various architectures and weights to one generalized foundation NN (e.g., M4~\cite{yuan2023rethinking} and EdgeFM~\cite{yang2023edgefm}).
-The parameter efficiency of PET enables the foundation NNs to adapt to diverse tasks through plug-and-play additional parameters, with high scalability and lightweight memory/storage/task-switching overhead.
-Furthermore, recent research on critical parameter protection on devices~\cite{zhang2023no} indicates that PET's parameter efficiency provides enhanced security and privacy, as these few parameters can be executed within the Trusted Execution Environments (TEEs) like ARM TrustZone.
-
-\noindent \textbf{Observation\#2: PET is less prone to the device memory wall.}
-Since most parameters are frozen, PET does not need to keep their gradients and the intermediate activation (at least linear layers and bottom frozen layers) in memory ~\cite{NEURIPS2020_81f7acab}.
-\input{fig-preliminary_measurement}
-Figure ~\ref{fig:mem-measurement} shows that PET only consumes 21.19\%--38\% memory compared to full model training.
-
-% \noindent \textbf{Observation\#3: PET is less hungry for data labels, and is compatible with advanced Few-Shot Learning (FSL) algorithms.} \yws{How about do not mention few-shot issue, and mapping \sys to continous learning?}
-% Existing unsupervised fine-tuning methods utilizing raw data (e.g., pseudo-labels~\cite{lee2013pseudo, 10.1145/3570361.3613277}) have made on-device training feasible in most scenarios.
-% However, in extreme cases where active interaction with users is required for calibration, such as real-time gaze estimation~\cite{He_2019_ICCV}, data labels are still limited.
-% As shown in Figure~\ref{fig:fewshot-measure}, thanks to the design of freezing pre-trained knowledge, PET performs well with strictly limited labels.
-% It is also noteworthy that as a fine-tuning paradigm, PET is compatible with advanced pre-training optimizations aimed at improving FSL accuracy, such as MAML~\cite{finn2017model} and prototypical networks~\cite{10.5555/3294996.3295163}.
-
-% \noindent \textbf{Observation\#3: PET is engineering-friendly to inference-tailored accelerators when performing on-device training.}
-% % Modern edge/mobile devices' SoCs are typically integrated with Neural Processing Units (NPUs), which are tailored  for DNN inference.
-% A well-known limitation of inference-tailored accelerators is their closed software ecosystem.
-% Specifically, their SDKs (e.g., Snapdragon SNPE/QNN~\cite{snpe, qnn} and Huawei HiAI foundation~\cite{Hiai}) requires re-compiling the compute-graph when the original shape/weights are changed.
-% Such a process is extremely time-consuming: for instance, re-establishing and re-optimizing a graph of ResNet18 takes 32.8s on HiAI foundation SDK, being unacceptable to on-device training since it updates and re-compiles the graph at each iteration.
-% Fortunately, PET's frozen-tuning nature makes it convenient to reuse the inference ABIs that are designed immutable by the SDK vendors.
-% We showcase such an engineering superiority of PET in $\S$\ref{subsec:NPU}.
-
-
-
-\noindent \textbf{\textit{Observation\#3: However, parameter efficiency does not translate to time efficiency.}}
-% We compare fine-tuning all parameters with 4 PET methods in Figure ~\ref{fig:time_measure}.
-Although >90\% parameters are frozen, PET is still time-consuming with only 35.82\% training speedup on average in Figure ~\ref{fig:time_measure}.
-Fine-tuning ResNet50 1 epoch with Caltech-256 on a MI10 smartphone takes 14.8 hours, and even with the most aggressive PET strategy that only performs linear probing, it still takes 4.7 hours, which is significantly longer than the average daily training-available time on smartphones (2.7 hours, red dotted line) ~\cite{xu2018deeptype}.
-%Therefore, continued efforts are still required to cut down the wall-clock training time of PET.
-
-\noindent \textbf{\textit{Observation\#4: Frozen layers are significantly more computationally expensive than trainable layers in a PET iteration.}}
-Table ~\ref{table-frozenvstrainable} shows the measured time consumption of frozen and trainable layers in a PET iteration (forward + backward).
-The majority of the computation time is attributed to the frozen parts (96.34\%--99.59\%). 
-% \mwx{Forward vs. Backward?}
-
-\noindent \textbf{\textit{Implications}}
-Parameter-efficient training is a good fit to on-device training.
-However, even though most parameters are frozen, it is still time-consuming.
-To make on-device PET practical and efficient, system level support is needed to re-architect the model structure and training paradigm.
-Given the predominance of frozen layers, it is promising to focus on reducing their computational cost.
-
-% \mwx{Is the formulation used in design? If not, can be greatly compressed.}
-% \mwx{can be merged to last subsection}
-% Although PEFT freezes the majority of parameters, it does not bring about time efficiency that is equivalent to its parameter efficiency.
-% To figure out the computation time of each part of PEFT, we establish a timing model.
-
-% Figure ~\ref{fig:time model of PEFT} illustrates the forward and backward propagation process of PEFT.
-% \input{fig-time model of PEFT}
-% During a PEFT training iteration, both the frozen and trainable parts compute the forward propagation. The forward propagation computation time for the $i_{th}$ part is denoted as $T_{f}^{(i)}$.
-% During the back propagation phase, the frozen parts only need to compute the error gradients, which takes time $T_{dy}^{(i)}$ for the $i_{th}$ part. The trainable parts, on the other hand, not only compute the error gradients but also perform weight updates, which takes time $T_{dw}^{(i)}$ for the $i_{th}$ part.
-% Note that when all the components preceding a specific trainable part are frozen, there is no need to continue computing the back propagation further.
-% % activation cache? include T_{t}^{1}?
-
-% If we use $T_{frozen}$ to represent the computation time for the frozen parts and $T_{trainable}$ to represent the computation time for the trainable parts, they can be estimated using Equation ~\ref{eq-T_frozen} and Equation ~\ref{eq-T_trainable}, respectively.
-% \begin{align}
-% 	T_{frozen} = T_{f}^{(1)} + T_{f}^{(3)} + T_{dy}^{(3)}
-% 	\label{eq-T_frozen}
-% \end{align}
-% \begin{align}
-%  	T_{trainable} = T_{f}^{(2)} + T_{f}^{(4)} + T_{dy}^{(4)} + T_{dw}^{(4)} + T_{dy}^{(2)} + T_{dw}^{(2)}
-% 	\label{eq-T_trainable}
-% \end{align}
-
-% Since the frozen parts are significantly larger than the trainable parts, $T_{frozen}$ is usually several times longer than $T_{trainable}$.
-
-\input{tab-frozenvstrainable}
+\noindent \textbf{Frozen layers still dominate training time.}
+These savings do not translate into a comparable reduction in computation.
+On a MI10 smartphone, training ResNet50 for one epoch on Caltech-256 takes 14.8 hours with full-model fine-tuning and 4.7 hours with linear probing.
+Even the latter exceeds the reported average daily time available for smartphone training, 2.7 hours~\cite{xu2018deeptype}.
+Across the measured PET configurations of ViT\_base and ResNet50 on Jetson TX2 at batch size 4, frozen layers account for 96.34--99.59\% of an iteration's computation time.
+They still perform forward computation and, where needed, propagate gradients to earlier trainable layers.
+Reducing this cost is therefore the main opportunity for accelerating on-device PET.
+\endgroup
 
 \subsection{Training Data Diversity}
-% \yws{shall we change data diversity to another word? this one may conflict with data diversity in FL (e.g., non-IID).}
 \label{subsec:Opportunity: Training Data diversity}
-% \yws{(Some samples to intuitively show difficulty and importance?)
-% }
-% \yws{(Difficulty is intrinsic property of training data; Importance is related to training state.)}
-
-% \mwx{Smooth the logic flow, start with something like:
-% To reduce the forward/backward training time on the freezed subnets, this work proposes to opportunistically replace those them with more lightweight ones through pruning.
-% Yet, training is known to be sensitive to weights precision and simply replacing the freezed subnets could degrate the accuracy significantly <refs>.
-% }
-To reduce the forward/backward training time on the frozen layers, this work proposes to opportunistically replace them with more lightweight ones.
-Yet, training is known to be sensitive to weights precision ~\cite{NIPS2017_6c340f25, Goli_2020_CVPR, pmlr-v70-sun17c, 10.1145/3495243.3560545} and simply downsampling the frozen layers could degrade the convergence accuracy significantly ($\S$\ref{subsec: sensitivity}, Figure ~\ref{fig:static}).
-
-
-% \mwx{To speedup on-device PET while not compromising the convergence accuracy, we exploit a known opportunity: data diversity...}
-To speedup on-device PET while not compromising the convergence accuracy, we exploit a known opportunity: \textit{data diversity}.
-Existing studies have provided evidence for the presence of diversity in real-word data ~\cite{ijcai2017p0735, he2019data, 10.1145/3495243.3517016, mercury2021sensys, canel2019scaling, 10.1145/2972413.2972423, 10.1145/3241539.3241557, pmlr-v162-mindermann22a, huang2018multiscale}.
-From our observation, data in deep learning presents two aspects: 
-(1) Samples vary in their difficulty level, where some are intrinsically easier to extract accurate and informative features from, i.e., \textit{data difficulty}.
-(2) Samples also differ in their importance level to training tasks, as certain nontrivial examples can facilitate faster model convergence and better generalization, i.e., \textit{data importance}.
-
+\begingroup
+\color{blue}
+Replacing frozen layers with smaller networks can reduce computation, but using the same approximation for every sample can hurt accuracy ($\S$\ref{subsec: sensitivity}, Figure~\ref{fig:static}).
+\sys instead uses differences in \textit{data difficulty} and \textit{data importance} to choose how much computation each sample receives.
+As illustrated in Figure~\ref{fig:data_hetero}, blurred or obstructed images can be harder to extract features from, while a less familiar example can contribute more to learning than one the model already recognizes well.
 \input{fig-hetero_examples}
-We provide an incomplete but intuitive example of data diversity in Figure ~\ref{fig:data_hetero}.
-We select representative training samples from a classic transfer learning benchmark dataset Dogs vs. Cats ~\cite{Dvg}.
-Some training samples are more difficult to extract features from, because they are intrinsically blurry, obstructed, or complicated, etc.
-When the NN has learned plenty of tabby cats, a non-trivial British Shorthair can help the NN to better generalize to the broader concept of ``cats'', thus contributing more to convergence.
-% \mwx{Could be removed.}
 
-% \mwx{The statistical perspective to show data diversity maybe should be organized in a separated paragraph.}
-
-Here, we provide more formal definitions, and demonstrate the training data diversity from a statistical perspective.
-
-\input{fig-data_hetero}
-% \mwx{Need re-organizing contents here. Explicitly say the following things: (1) How difficulty is defined: low-level feature quality (instead of coarse-grained predictions). Specifically, the difference of features that extracted by the proxy network and original network. (2) Unify the symbols. For instance, $\mathcal{F}$ and $\mathcal{F}_{0}$. (3) Clarify the selection of threshold $\sigma$, along with the the huge logic gap that the following learning method actually only aligns with the high-level philosophy of our difficulty definition, but do not use the concrete formula. (4) Compare our definition to layer-exiting position based definitions (maybe in discussion section).}
-\textit{\textbf{Definition\#1: data difficulty}} is measured by feature quality.
-\yws{
-\sys provides multi-level approximation for a network.
-Specifically, given a pre-trained NN $\mathcal{F}_{0}$, we approximate it with a series of subnets $\{\mathcal{F}_{n}\}, n \in \{1, 2, \cdots, N\}$ (pruned and fine-tuned in $\S$\ref{subsec:proxy network generation}; the larger $n$, the smaller capacity).
-Based on the rationale that NNs with larger capacity exhibit stronger capability, the difficulty of a data sample $x$ can be reflected by the minimal subnet that captures feature that on-par with the non-approximated network.
-We define data difficulty $\mathcal{\phi}(x)$ by
+\noindent \textbf{Data difficulty.}
+Let $\mathcal{F}_0$ be the original network and $\{\mathcal{F}_n\}_{n=1}^{N}$ its progressively smaller proxies, constructed in $\S$\ref{subsec:proxy network generation}.
+We measure difficulty by the smallest proxy that preserves the original network's features:
 \begin{equation}
 \begin{split}
 \label{eq-difficulty_def}
-\mathcal{\phi}(x) = max(n \in \{0, 1, \cdots, N\}), \\ 
-                s.t. \quad \mathcal{F}_{n} (x) \simeq \mathcal{F}_{0}(x).
+\mathcal{\phi}(x) = \max\{n \in \{0,1,\ldots,N\}: \\
+\mathcal{F}_n(x) \simeq \mathcal{F}_0(x)\}.
 \end{split}
 \end{equation}
-where $\mathcal{F}_n(x)$ is the feature extracted by NN $\mathcal{F}_n$, $\simeq$ means the features are equivalent with each other in PET.
-The larger $\mathcal{\phi}(x)$ is, the simpler the data sample $x$ becomes.
-}
-%Not each data sample requires the model capacity equally.
-% We observe that certain data exhibits the ability to retain similar features even when extracted by NNs with smaller capacity, compared to those with larger capacity.
-% Given a pre-trained NN $\mathcal{F}_{0}$, We approximate it with a series of subnets $\{\mathcal{F}_{n}\}, n \in \{1, 2, \cdots, N\}$ (pruned and fine-tuned in $\S$\ref{subsec:proxy network generation}),
-% % We can obtain a reduced FLOPs network $F'$ by applying structured pruning to a well-pre-trained initial network $F$. 
-% and then we can define data difficulty $\mathcal{\phi}(x)$ by
+Here, $\mathcal{F}_n(x)$ denotes the extracted features and $\simeq$ denotes sufficient feature similarity for PET.
+A larger $\mathcal{\phi}(x)$ means that a smaller proxy can process $x$, so the sample is easier.
 
-
-% \begin{equation}
-% \begin{split}
-% \label{eq-difficulty_def}
-% \mathcal{\phi}(x) = max(n \in \{0, 1, \cdots, N\}), \\ 
-%                 s.t. \quad \mathcal{F}_{n} (x) \otimes \mathcal{F}_{0}(x) > 1-\mathcal{\sigma},
-% \end{split}
-% \end{equation}
-% where $\mathcal{F}(x)$ is the feature extracted by NN $\mathcal{F}$, $\otimes$ is an operator that computes similarity, $\mathcal{\sigma}$ is the similarity threshold.
-% The larger $\mathcal{\phi}(x)$ is, the simpler the data sample $x$ becomes.
-
-% For a given sample $x$, if the cosine similarity between the features $F(x)$ and $F'(x)$ exceeds the threshold $\sigma$, we can say that $x$ is a relatively less difficult sample.
-% Figure ~\ref{fig:difficulty} shows the percentage of training data with feature cosine similarity\footnote{Cosine similarity reflects the similarity of two tensors $a$ and $b$ by calculating $\frac{a\cdot b}{\left\| a \right\|\cdot \left\| b \right\|}$. It is widely used in ML techniques such as knowledge distillation~\cite{hinton2015distillingknowledgeneuralnetwork, aguilar2020knowledgedistillationinternalrepresentations} and vector database~\cite{han2023comprehensivesurveyvectordatabase}.} greater than $\sigma$ as NN is pruned.
-% % In this case, the feature $\mathcal{F}(x)$ is the output of the last layer before ResNet classification head.
-% With the threshold $\mathcal{\sigma}$ set at 3\%, more than 70\% of the training data is capable of being transferred to lighter sub-networks, and in excess of 20\% can be migrated to a sub-network demanding just half the computational power of original NN $\mathcal{F}_{0}$. 
-% As the threshold becomes more lenient, say 5\% or 10\%, there will be more ``easy'' data, by our definition.
-
-% \mwx{Make the following modifications. (1) Standardize the symbols, e.g., $\nabla$ means partial differential. (2) Maybe a table to summarize the symbols?}
-\textit{\textbf{Definition\#2: data importance}} is measured by its contribution to the model convergence.
-% \mwx{Not each data sample contributes to the model convergence equally.}
-%Not each data sample contributes to the model convergence equally.
-% We observe that as training progresses, certain data becomes relatively trivial, thereby reducing their contribution to the training process.
-Given a data sample $x$, the gradient norm $\left\| \nabla l(x; w_{t})  \right\|$ reflects the degree of contribution that $x$ makes to the model convergence at time $t$ ~\cite{mercury2021sensys, katharopoulos2017biased}.
-In practice, the feed-forward loss $l(x; w_{t})$ is a more straightforward estimation for the gradient norm, and it is proven to possess a relatively tight upper bound ~\cite{katharopoulos2017biased}.
-Thus, we define data importance $\mathcal{\psi}(x, t)$ by
+\noindent \textbf{Data importance.}
+A sample's contribution to learning depends on the current model state.
+We use its training loss as a practical indicator of this contribution, following prior work on loss-based importance estimation~\cite{mercury2021sensys, katharopoulos2017biased}:
 \begin{equation}
 \label{eq-importance_def}
-\mathcal{\psi}(x, t) = l(x; w_{t}) = \mathcal{L}[\mathcal{F}(x; w_{t}), y], 
+\mathcal{\psi}(x,t) = l(x;w_t) = \mathcal{L}[\mathcal{F}(x;w_t),y],
 \end{equation}
-where $w_{t}$ is the state of NN $\mathcal{F}$ at time (\yws{i.e., training iteration}) $t$, $y$ is the label of data sample $x$, $\mathcal{L}$ is the function to calculate feed-forward loss.
-\yws{Notably, data importance $\mathcal{\psi}(x, t)$ is with respect to both the data sample $x$ itself and the current training time step $t$, being stateful.
-This is owing to the data importance is influenced by the knowledge that has been learned by the NN in the training process.
-}
+where $w_t$ is the model state at training iteration $t$, $y$ is the label, and $\mathcal{L}$ is the loss function.
+Unlike difficulty, importance changes as the model learns.
 
-\noindent \textbf{Training data is diverse in difficulty and importance.}
-\yws{
-After defining data difficulty/importance, we further show that a realistic training dataset can exhibit highly diversified difficulty/importance, which sheds light on assigning various subnets for various data samples.
-}
-
-\yws{
-For data difficulty, to concretely show its diversity, here we temporarily use a straightforward cosine similarity\footnote{Cosine similarity reflects the similarity of two tensors $a$ and $b$ by calculating $\frac{a\cdot b}{\left\| a \right\|\cdot \left\| b \right\|}$. It is widely used in ML techniques such as knowledge distillation~\cite{hinton2015distillingknowledgeneuralnetwork, aguilar2020knowledgedistillationinternalrepresentations} and vector database~\cite{han2023comprehensivesurveyvectordatabase}.} for modeling the closeness of the extracted features. 
-Specifically, $\mathcal{F}_{n} (x) \simeq \mathcal{F}_{0}(x)$ is measured by $\mathcal{F}_{n} (x) \otimes \mathcal{F}_{0}(x) > 1-\mathcal{\sigma}$, where $\otimes$ is the operator to compute cosine similarity, and $\mathcal{\sigma}$ is a threshold.
-Figure ~\ref{fig:difficulty} shows the percentage of training data with feature cosine similarity greater than $1-\sigma$ as NN is pruned.
-% In this case, the feature $\mathcal{F}(x)$ is the output of the last layer before ResNet classification head.
-With the threshold $\mathcal{\sigma}$ set at 3\%, more than 70\% of the training data is capable of being transferred to lighter sub-networks, and in excess of 20\% can be migrated to a sub-network demanding just half the computational power of original NN $\mathcal{F}_{0}$. 
-With this inclined curve, we can see that data difficulty is diversified in a collection of data.
-The diversity consistently exists with varied $\sigma$ in Figure ~\ref{fig:difficulty}.
-}
-
-\yws{For data importance, in Figure ~\ref{fig:importance}
-we observe that various samples also demonstrate diversity in importance; and the importance varies with time step (\# iterations).
-For example, at the beginning of training, the data importance obeys a Gaussian distribution; post 200 iterations, the distribution rapidly consolidates to a minor fraction of data samples, with the remainder having a minimal impact on model training.}
-
-% There are many ways to estimate data importance, e.g. gradients or loss. 
-% We use loss to represent the data importance.
-
-
-% \mwx{While data diversity has been known by system/AI communities for long, we are the first to identify its opportunity to be integrated with PET to accelerate on-device fine-tuning.}
-
-\noindent \textbf{Remarks.}
-\yws{
-So far, we have defined data difficulty and importance for PET, and have shown that a collection of training data is diverse in these aspects.
-This inspires \sys to dynamically approximate the frozen layers with the awareness of data characteristic during training.
-Notably, while training data has diversity is a known property~\cite{baldock2021deeplearninglensexample, teerapittayanon2017branchynetfastinferenceearly}, we are the first to present a tailored and rigorous definition of data diversity in the context of PET, and we are also the first to identify the unique key opportunity that it can work with the approximation of static frozen layers to accelerate on-device fine-tuning.
-}
-% \mwx{Maybe expand this.}
-
-%The diversity of training data offers us opportunities for offloading computation to lightweight structures, inspiring our design of \sys.
-
-%\mwx{Data difficulty and importance are two different dimensions to evaluate data diversity. Show some simple results.}
-
-%\mwx{Have some citations from AI/mobile papers on leveraging data diversity.}
+\input{fig-data_hetero}
+\noindent \textbf{Observed diversity.}
+Figure~\ref{fig:difficulty} measures feature similarity using cosine similarity, with a threshold of $1-\sigma$.
+At $\sigma=3\%$, more than 70\% of samples can use a smaller proxy, and more than 20\% can use one requiring only half the original network's computation.
+The differences persist across the tested thresholds.
+Figure~\ref{fig:importance} shows that importance also varies across samples and over time: after 200 iterations, high importance is concentrated in a small fraction of samples.
+Together, these observations motivate using smaller proxies for easier or less important samples and retaining more computation for those that need it.
+\endgroup
