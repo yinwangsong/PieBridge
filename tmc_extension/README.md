@@ -11,15 +11,15 @@ Current manuscript and the Jetson AGX Orin experiments for feature caching and f
 
 ## Initial submission files
 
-The [submission bundle](TMC_submission/00_UPLOAD_GUIDE.txt) contains four PDFs: a clean main manuscript (16 pages), a cover letter signed by Wangsong Yin (1 page), the original SenSys 2024 paper (15 pages), and a separate blue-marked manuscript (16 pages). The main and marked copies have identical text and pagination. The Introduction cites the conference version and describes the extensions.
+The [submission bundle](TMC_submission/00_UPLOAD_GUIDE.txt) contains five PDFs: a clean main manuscript (16 pages), a cover letter signed by Wangsong Yin (1 page), the original SenSys 2024 paper (15 pages), a separate blue-marked manuscript (16 pages), and a [statement of differences from the conference paper](TMC_submission/05_PETCube_Extension_Statement.pdf) (2 pages). The main and marked copies have identical text and pagination. The Introduction cites the conference version and describes the extensions.
 
 Run `python3 submission/prepare_submission.py` to rebuild this bundle and a local `TMC_submission.zip`. Upload the PDFs individually by their roles; the ZIP is for local delivery. No submission to the journal is performed.
 
 ## Download the LaTeX source
 
-[Download the LaTeX ZIP](https://raw.githubusercontent.com/yinwangsong/PieBridge/tmc/tmc_extension/PETCube_TMC_LaTeX_Source.zip) includes the current manuscript, bibliography, required figures, IEEE template files, and cover-letter source. It excludes build outputs, logs, previews, and experimental traces.
+[Download the LaTeX ZIP](https://raw.githubusercontent.com/yinwangsong/PieBridge/tmc/tmc_extension/PETCube_TMC_LaTeX_Source.zip) includes the current manuscript, bibliography, required figures, IEEE template files, cover-letter source, and extension-statement source. It excludes build outputs, logs, previews, and experimental traces.
 
-After extraction, select `main-clean.tex` for the clean submission or `main.tex` for the blue-marked version. The package includes Windows `build.bat`, Linux/macOS `build.sh`, and instructions for Overleaf. Both manuscript entry points reproduce the 16-page submission text; the cover letter builds to one page.
+After extraction, select `main-clean.tex` for the clean submission or `main.tex` for the blue-marked version. The package includes Windows `build.bat`, Linux/macOS `build.sh`, and instructions for Overleaf. Both manuscript entry points reproduce the 16-page submission text; the cover letter builds to one page and the extension statement to two pages.
 
 To regenerate the source ZIP, first build both manuscript entry points (for example with `python3 submission/prepare_submission.py`), then run `python3 submission/package_latex_source.py`. The script selects the actual local LaTeX inputs from the compiler recorder files.
 

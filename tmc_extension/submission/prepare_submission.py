@@ -1,4 +1,4 @@
-"""Build and package the four PDFs for a TMC initial submission; never upload them."""
+"""Build and package the five PDFs for a TMC initial submission; never upload them."""
 
 import hashlib
 import json
@@ -33,11 +33,15 @@ def main():
          "-file-line-error", "-outdir=build", "main-clean.tex"], cwd=PAPER)
     run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
          "-outdir=build", "cover_letter_tmc.tex"], cwd=SUBMISSION)
+    run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
+         "-outdir=build", "extension_statement_tmc.tex"], cwd=SUBMISSION)
     for log in (PAPER / "build/main.log", PAPER / "build/main-clean.log",
-                SUBMISSION / "build/cover_letter_tmc.log"):
+                SUBMISSION / "build/cover_letter_tmc.log",
+                SUBMISSION / "build/extension_statement_tmc.log"):
         content = log.read_text()
         assert not any(term in content for term in ("Warning", "Overfull", "undefined")), log
     shutil.copyfile(SUBMISSION / "build/cover_letter_tmc.pdf", SUBMISSION / "cover_letter_tmc.pdf")
+    shutil.copyfile(SUBMISSION / "build/extension_statement_tmc.pdf", SUBMISSION / "extension_statement_tmc.pdf")
 
     clean = PAPER / "build/main-clean.pdf"
     marked = PAPER / "PieBridge_TMC.pdf"
@@ -50,6 +54,7 @@ def main():
     assert pdf_info(clean) == pdf_info(marked) == 16
     assert pdf_info(conference) == 15
     assert pdf_info(SUBMISSION / "cover_letter_tmc.pdf") == 1
+    assert pdf_info(SUBMISSION / "extension_statement_tmc.pdf") == 2
     conference_text = run(["pdftotext", "-f", "1", "-l", "1", str(conference), "-"])
     assert "PieBridge" in conference_text and "3666025.3699327" in conference_text
 
@@ -59,6 +64,7 @@ def main():
         ("02_PETCube_Cover_Letter.pdf", SUBMISSION / "cover_letter_tmc.pdf", "cover_letter"),
         ("03_PieBridge_SenSys2024.pdf", conference, "previously_published_paper"),
         ("04_PETCube_Marked_Manuscript.pdf", marked, "marked_supporting_manuscript"),
+        ("05_PETCube_Extension_Statement.pdf", SUBMISSION / "extension_statement_tmc.pdf", "conference_extension_statement"),
     ]
     entries = []
     for name, source, role in documents:

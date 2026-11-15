@@ -31,15 +31,21 @@ PETCube — TMC 投稿文件说明
    本次 cover letter 说明随附此稿；如系统没有专用类别，放入供编辑/审稿人
    查阅的支持文件类别，避免选成用于随论文公开发表的补充材料。
 
+5. 05_PETCube_Extension_Statement.pdf
+   用途：Statement of Differences / Conference Extension Statement /
+   Supporting Document（与 SenSys 2024 版本的差异说明）。
+   2 页英文说明，区分会议版已有内容与期刊版新增设计和实验，列出新增
+   小节、图、表及页码。按实际界面选择供编辑和审稿人查阅的支持文件类别。
+
 本次整理遵循的要点
 - 会议扩展稿须引用前作、说明差异，并提供前作副本。正文已补上引用，
-  cover letter 已说明扩展内容，因此不另建重复的扩展说明 PDF。
+  cover letter 已说明扩展内容，并附独立的两页英文差异说明 PDF。
 - IEEE CS 公布的篇幅规则为常规论文 12 页、投稿最多 18 页，包括参考文献
   和作者介绍。本稿 16 页；若录用后最终排版仍超过 12 页，将涉及超页费，
   具体金额以届时期刊规则为准。本次未通过拆分参考文献规避页数限制。
 - 不把摘要、引言、背景、调度、Orin 等局部预览或单独图表作为补充论文上传。
   本次也没有另设需要随论文公开发表的 Supplementary Material。
-- 压缩包只有上述四份 PDF、本说明和 manifest.json，不包含中间结果、日志、
+- 压缩包只有上述五份 PDF、本说明和 manifest.json，不包含中间结果、日志、
   编译缓存、数据集或模型。LaTeX 源文件仍在项目中，按系统要求另行提供。
 - 当前论文通讯作者仍为 Mengwei Xu；cover letter 由 Wangsong Yin 署名。
   全体作者同意及无同时在审等声明尚未由作者确认，应由提交人据实填写。

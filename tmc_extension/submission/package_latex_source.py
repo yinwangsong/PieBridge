@@ -30,11 +30,14 @@ def main():
     files = {p.relative_to(PAPER).as_posix(): p.read_bytes() for p in sorted(inputs)}
     files["cover_letter/cover_letter_tmc.tex"] = (
         ROOT / "submission/cover_letter_tmc.tex").read_bytes()
+    files["extension_statement/extension_statement_tmc.tex"] = (
+        ROOT / "submission/extension_statement_tmc.tex").read_bytes()
     files["README.txt"] = """PETCube — TMC LaTeX source package
 
 本包对应当前 16 页 TMC 稿件，含所需正文、参考文献、图片和模板文件。
 作者姓名为 Gang Huang；通讯作者为 Mengwei Xu。
 Cover letter 位于 cover_letter/，落款为 Wangsong Yin。
+与 SenSys 2024 的差异说明位于 extension_statement/。
 
 编译入口
   main-clean.tex：正式稿，修订文字为黑色。
@@ -59,6 +62,10 @@ Linux / macOS
 投稿信
   在 cover_letter 目录执行：
     latexmk -pdf -interaction=nonstopmode -halt-on-error cover_letter_tmc.tex
+
+会议扩展说明
+  在 extension_statement 目录执行：
+    latexmk -pdf -interaction=nonstopmode -halt-on-error extension_statement_tmc.tex
 
 IEEEtran.cls、IEEEtran.bst、algorithm2e.sty 随包提供，保留上游文件内容。
 figs/ 和 figures/ 中的 PDF 是正文所需的矢量图片，不是整篇论文预览。

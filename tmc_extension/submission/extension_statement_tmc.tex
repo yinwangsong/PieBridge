@@ -1,0 +1,101 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{array,booktabs,tabularx}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\hypersetup{pdftitle={PETCube: Statement of Differences from the SenSys 2024 Version},
+  pdfauthor={Wangsong Yin, Daliang Xu, Gang Huang, Ying Zhang, Shiyun Wei, Mengwei Xu, Xuanzhe Liu}}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries Statement of Differences from the\\[3pt] SenSys 2024 Conference Version}
+\end{center}
+
+\textbf{TMC submission:} \textit{PETCube: Accelerating On-Device Training with Online Approximation and Foreground-Aware Scheduling}.
+
+\textbf{Published conference paper:} Wangsong Yin, Daliang Xu, Gang Huang, Ying Zhang, Shiyun Wei, Mengwei Xu, and Xuanzhe Liu.
+\textit{PieBridge: Fast and Parameter-Efficient On-Device Training via Proxy Networks}.
+ACM SenSys 2024, pp.\ 126--140.
+DOI: \href{https://doi.org/10.1145/3666025.3699327}{10.1145/3666025.3699327}.
+
+\textbf{1. Relationship to the conference paper}
+
+The conference paper introduced proxy-based acceleration of on-device parameter-efficient training. Its core mechanisms are structured pruning with latent-space alignment, an offline-trained policy for estimating sample difficulty, and online loss feedback for adapting proxy selection and update decisions. The TMC submission retains these mechanisms and the earlier multi-device evaluation as its foundation.
+
+The extension addresses training that shares an accelerator with periodic foreground inference. Proxy computations have different runtimes, so the next batch in FIFO order may leave part of an available gap unused. The new online mechanisms use these gaps while preserving the existing offline proxy generation and policy training.
+
+\textbf{2. New runtime designs}
+
+\textbf{Foreground-aware task reordering (Section 3.4).}
+Reorder gives due foreground requests priority and estimates the time available before the next request. It runs the oldest waiting task when that task fits; otherwise, it searches a bounded lookahead window for a suitable later task. Among fitting candidates, it selects the one with the longest estimated runtime. The design includes runtime-estimate updates, a safety margin, and a bypass limit for complete training batches. It chooses which operation starts next without interrupting an operation already running. Figure 9 illustrates how this uses a gap that FIFO leaves idle.
+
+\textbf{Feature caching before the first trainable layer (Section 3.4.1).}
+A bounded buffer separates the frozen forward computation from the remaining training work. These two parts can run in different gaps. Features are prepared within the current epoch, consumed once, and released; the next epoch recomputes them. Feature computation can be reordered while work from the first trainable layer onward follows the original batch order. This scheduling boundary is defined by the model's first trainable layer, and the Orin experiments instantiate it with a trainable classifier.
+
+\textbf{Combined execution algorithm (Section 3.4.2 and Algorithm 2).}
+The new algorithm specifies how foreground priority, available time, pending feature groups, and cache capacity determine the next operation. It reserves cache space for the earliest missing batch and preserves the original loss-based update decision, EMA update, and sampler feedback. Grouping batches that use the same proxy improves forward efficiency; the trainable part still processes the original batches in order. The additional gains therefore combine feature preparation, grouped forward computation, and task reordering.
+
+\newpage
+\textbf{3. New experiments on Jetson AGX Orin}
+
+Section 5.5 adds a shared-accelerator evaluation on a Jetson AGX Orin with 64\,GB memory in 30\,W mode, using ResNet50 and Caltech-101. It uses the released proxy networks, policy model, and classifier, with 12 training epochs and a training batch size of four. The comparison applies the new online mechanisms to the retained proxy-based pipeline under the same foreground workload.
+
+\textbf{Separating the effects of caching and reordering (Table 6).}
+At a 105\,ms request period, Table 6 compares the four configurations below. Here, ``prefetch'' means preparing and caching features within an epoch, including grouped forward computation for batches using the same proxy.
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Method & Training time (s) & Time saved (\%) & Accuracy (\%) \\
+\midrule
+FIFO without caching & 737.05 & 0.00 & 91.85 \\
+Reorder without caching & 664.70 & 9.82 & 91.85 \\
+FIFO + prefetch & 569.53 & 22.73 & 91.92 \\
+Reorder + prefetch & 517.06 & 29.85 & 91.39 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Reordering also reduces training time by 9.21\% relative to FIFO with prefetching. Table 6 additionally reports foreground inference p99 response time and the fraction of requests exceeding the 33.20\,ms response-time target. These measurements expose the effect on inference service alongside training time and final accuracy.
+
+\textbf{Varying the foreground request period (Figure 18).}
+The additional period comparison evaluates FIFO without caching and Reorder with prefetching at 105, 135, and 180\,ms. The combined method reduces training time in all three measured settings:
+
+\begin{center}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Period (ms) & FIFO (s) & Reorder + prefetch (s) & Time saved (\%) \\
+\midrule
+105 & 737.05 & 517.06 & 29.85 \\
+135 & 620.92 & 447.79 & 27.88 \\
+180 & 514.40 & 391.08 & 23.97 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All times above cover 12 training epochs, including scheduling overhead and waiting, and exclude epoch-end evaluation. Each reported condition is one run; the 105\,ms comparison reuses the corresponding Table 6 runs. The percentages use uncached FIFO under the same request period as the reference. The original conference results remain identified separately in the manuscript.
+
+\textbf{4. Location of the added material}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}Xl@{}}
+\toprule
+Added material & Location in the TMC submission \\
+\midrule
+Reordering rules and illustrative example & Section 3.4; Figure 9; pp.\ 7--8 \\
+Feature caching and combined algorithm & Sections 3.4.1--3.4.2; Algorithm 2; p.\ 8 \\
+Orin setup and four-method comparison & Section 5.5; Table 6; pp.\ 12--13 \\
+Foreground-period comparison & Section 5.5; Figure 18; p.\ 13 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The abstract, introduction, and contribution statements have been revised to describe these additions. The introduction cites the SenSys 2024 paper as reference [47] and states the relationship between the two versions. The submission materials include the published conference paper and a separate manuscript copy marking new and revised text in blue.
+
+\end{document}
