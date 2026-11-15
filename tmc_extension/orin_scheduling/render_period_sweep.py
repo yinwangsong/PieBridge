@@ -1,4 +1,4 @@
-"""Render Table 8 only from complete, verified full-training period pairs."""
+"""Render the period-sweep figure data and text from verified 12-epoch pairs."""
 
 import csv
 import hashlib
@@ -38,7 +38,7 @@ def main():
     assert new_profile['args']['epochs'] == 12
     assert set(new_rows) == {(float(p), m) for p in (135, 180) for m in MODES}
 
-    comparisons, table = [], []
+    comparisons = []
     first_plan = None
     for period in PERIODS:
         directory, rows = (OLD, old_rows) if period == 105 else (NEW, new_rows)
@@ -67,8 +67,7 @@ def main():
             source_directory=str(directory.relative_to(ROOT.parent)),
             reused_from_table7=period == 105,
         ))
-        table.append(f"{period} & {baseline['training_seconds']:.2f} & "
-                     f"{combined['training_seconds']:.2f} & {saved:.2f} " + r'\\')
+
 
     savings = [r['training_time_saved_percent'] for r in comparisons]
     if min(savings) > 0:
@@ -89,35 +88,32 @@ def main():
 \color{blue}
 \noindent\textbf{Varying the foreground inference period.}
 We compare FIFO without caching and Reorder with prefetching at request periods of 105, 135, and 180\,ms.
-Table~\ref{tab:orin-period-sweep} reports the time for all 12 training epochs, excluding evaluation, using the same settings as above.
+Figure~\ref{fig:orin-period-sweep} reports the time for all 12 training epochs, excluding evaluation, using the same settings as above.
 The 105\,ms results are reused from Table~\ref{tab:orin-prefetch}; we run both methods once at each of the other two periods.
 @@CONCLUSION@@
 
-\begin{table}[!t]
+\begin{figure}[!t]
 \color{blue}
-\caption{Training time under different foreground inference periods.}
-\label{tab:orin-period-sweep}
 \centering
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.10}
-\arrayrulecolor{blue}
-\begin{tabular}{@{}rrrr@{}}
-\toprule
-\makecell{Period\\(ms)} & \makecell{FIFO\\(s)} & \makecell{Reorder +\\prefetch (s)} & \makecell{Training time\\saved (\%)} \\
-\midrule
-@@ROWS@@
-\bottomrule
-\end{tabular}
-\arrayrulecolor{black}
-\end{table}
+\includegraphics[width=80mm]{figures/orin_period_sweep.pdf}
+\caption{Training time under different foreground inference periods. Bars show the time for 12 training epochs, excluding evaluation. Percentages show the reduction relative to FIFO without caching.}
+\label{fig:orin-period-sweep}
+\end{figure}
 \par
 \endgroup
 '''
-    text = text.replace('@@CONCLUSION@@', conclusion).replace('@@ROWS@@', '\n'.join(table))
+    text = text.replace('@@CONCLUSION@@', conclusion)
     assert '@@' not in text
     output = ROOT.parent / 'DynaProxyer_TMC/sec-eval-period-sweep.tex'
     output.write_text(text)
+    figure_data = [
+        {key: row[key] for key in (
+            'period_ms', 'fifo_training_seconds',
+            'prefetch_reorder_training_seconds', 'training_time_saved_percent')}
+        for row in comparisons
+    ]
+    (ROOT.parent / 'DynaProxyer_TMC/figures/orin_period_sweep_data.json').write_text(
+        json.dumps(figure_data, indent=2) + '\n')
     (NEW / 'table8_comparisons.json').write_text(json.dumps(comparisons, indent=2) + '\n')
     with (NEW / 'table8_metrics.csv').open('w') as stream:
         writer = csv.DictWriter(stream, fieldnames=list(comparisons[0]))

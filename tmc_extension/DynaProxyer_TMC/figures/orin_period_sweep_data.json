@@ -1,0 +1,20 @@
+[
+  {
+    "period_ms": 105,
+    "fifo_training_seconds": 737.0483463078854,
+    "prefetch_reorder_training_seconds": 517.0575861409307,
+    "training_time_saved_percent": 29.847534597826574
+  },
+  {
+    "period_ms": 135,
+    "fifo_training_seconds": 620.9235710691428,
+    "prefetch_reorder_training_seconds": 447.7865400731098,
+    "training_time_saved_percent": 27.883791027278193
+  },
+  {
+    "period_ms": 180,
+    "fifo_training_seconds": 514.4012292700354,
+    "prefetch_reorder_training_seconds": 391.0787782437401,
+    "training_time_saved_percent": 23.97398062234355
+  }
+]
