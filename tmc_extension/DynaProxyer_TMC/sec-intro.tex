@@ -85,19 +85,16 @@ At inference request periods of 105, 135, and 180\,ms, combining feature caching
 \par
 \endgroup
 
-The major contributions are summarized below.
-
-% \begin{itemize}
-%     \item A key opportunity: frozen-layer approximation..
-%     \item \sys: data-aware approximation and routing for efficient on-device PET.. key designs..
-%     \item Experiments...
-% \end{itemize}
-
+\begingroup
+\color{blue}
+Our contributions are as follows.
 \begin{itemize}[leftmargin=10pt,topsep=0pt]
-\item We thoroughly explore a key opportunity for tapping into the potential of parameter efficiency: dynamic frozen-layer approximation, and propose the first on-device training framework with both time and parameter efficiency.
-\item We introduce a pre-training-assisted on-cloud approximation method with high-quality speed-accuracy trade-offs, as well as an edge-tailored data perceiving and routing method that effectively and fully exploits the benefits brought by frozen-layer approximation.
-\item We implement \sys on diverse mobile/edge devices and demonstrate its effectiveness through extensive experiments. \sys makes on-device NN adaptation and deployment much more practical for COTS devices in the era of deep learning.
+\item \textbf{Data-aware approximation.} We design \sys to accelerate parameter-efficient on-device training by reducing frozen-layer computation. It constructs lightweight proxy networks through structured pruning and feature alignment, and selects among them using sample difficulty and training-loss feedback.
+\item \textbf{Feature caching and scheduling.} We add feature caching and task reordering for training alongside periodic foreground inference. A bounded cache separates computation before the first trainable layer from the remaining training steps. The scheduler uses runtime estimates to choose computations that fit between requests, while cached features are consumed in the original batch order and released after use.
+\item \textbf{Evaluation on real devices.} We implement \sys on mobile and embedded devices and evaluate it on four datasets and three NN architectures, achieving 1.5$\times$--2.5$\times$ speedup over PET baselines. On Jetson AGX Orin, caching and reordering reduce 12-epoch training time, excluding evaluation, by 23.97--29.85\% relative to FIFO without caching across three foreground inference periods.
 \end{itemize}
+\par
+\endgroup
 
 % To sum up, the contributions of the paper include:
 % We carry out the first parameter-efficient training measurement on actual mobile/embedded hardware.
