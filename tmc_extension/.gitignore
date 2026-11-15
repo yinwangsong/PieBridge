@@ -31,3 +31,6 @@ orin_scheduling/results/**/paper_build_output.txt
 
 # Keep only the final PDF at the extension root.
 DynaProxyer_TMC/PieBridge_TMC.pdf
+
+# Intentional, verified LaTeX source download; other ZIP files remain excluded.
+!PETCube_TMC_LaTeX_Source.zip
